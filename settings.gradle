@@ -1,0 +1,5 @@
+rootProject.name = 'muse-lib'
+include 'library'
+include 'demos:bubbles'
+include 'demos:control_layout'
+include 'demos:muse_first'

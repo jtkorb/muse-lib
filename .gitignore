@@ -1,0 +1,10 @@
+// See JetBrains list here:
+//    https://github.com/github/gitignore/blob/master/Global/JetBrains.gitignore
+.idea/**/workspace.xml
+*.class
+out/
+private/
+
+// Added for Gradle integration...
+.gradle/
+build/

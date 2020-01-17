@@ -1,0 +1,14 @@
+allprojects {
+    repositories {
+        jcenter()
+
+        maven {
+		    url  "https://dl.bintray.com/jtkorb/NeuralArt"
+            metadataSources {
+                artifact()
+            }
+	    }
+
+        flatDir dirs: "$rootProject.projectDir/external-libs"
+    }
+}
