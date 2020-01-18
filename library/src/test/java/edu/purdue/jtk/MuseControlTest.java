@@ -19,7 +19,7 @@ class MuseControlTest {
     @Test
     void getScaleValue() {
         assertEquals(100, mc.getScaleValue());
-        assertEquals(true, mc.getShowActivity());
-        assertEquals(true, mc.getShowFocus());
+        assertTrue(mc.getShowActivity());
+        assertTrue(mc.getShowFocus());
     }
 }
