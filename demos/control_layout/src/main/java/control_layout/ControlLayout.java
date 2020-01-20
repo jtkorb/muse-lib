@@ -1,5 +1,3 @@
-package control_layout;
-
 import edu.purdue.jtk.Muse;
 
 /**

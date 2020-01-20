@@ -1,5 +1,3 @@
-package bubbles;
-
 import edu.purdue.jtk.*;
 import processing.core.PApplet;
 import processing.core.PGraphics;
