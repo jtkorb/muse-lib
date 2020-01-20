@@ -2,6 +2,10 @@ package edu.purdue.jtk;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * The MuseStatistics class is a utility for gathering information about the Muse data passing through the
+ * system.  One of its main uses is for debugging--to make sure the data and processing seems "reasonable".
+ */
 class MuseStatistics {
     private ConcurrentHashMap<String, Integer> addresses = new ConcurrentHashMap<String, Integer>();
     private double timeCurrent = 0L;

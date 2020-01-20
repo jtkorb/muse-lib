@@ -6,7 +6,10 @@ import controlP5.Group;
 import processing.core.PFont;
 import processing.core.PGraphics;
 
-
+/**
+ * SensorBlockGroup manages the screen view of a displayed group of sensors.  A group corresponds to one of the four
+ * sensing locations on the head (right/left, forehead/ear).
+ */
 class SensorBlockGroup extends Group {
     Muse muse;
     Sensor sensor;
@@ -31,6 +34,7 @@ class SensorBlockGroup extends Group {
             else
                 wave = Wave.values()[i];
 
+            // wb is not used; creating the WaveBox and calling setGroup registers it with the MVC.
             WaveBox wb = new WaveBox(cp5, pf, fontColor, s + "-" + wave.getName(), muse, wave, sensor)
                     .setCaptionLabel(wave.getName())
                     .setSize(BAR_WIDTH, BAR_HEIGHT)

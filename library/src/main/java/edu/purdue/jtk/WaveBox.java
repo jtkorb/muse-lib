@@ -6,6 +6,9 @@ import controlP5.ControllerView;
 import processing.core.PFont;
 import processing.core.PGraphics;
 
+/**
+ * WaveBox is a controller class that manages the display of a single wave from a single sensor.
+ */
 class WaveBox extends Controller<WaveBox> {
     Muse muse;
 

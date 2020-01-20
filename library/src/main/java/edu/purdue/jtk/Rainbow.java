@@ -1,15 +1,12 @@
 package edu.purdue.jtk;
-// See https://peterkovesi.com/projects/colourmaps/ and https://arxiv.org/abs/1509.03700
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-// import static javafx.scene.paint.Color.color;
-
 /**
- * Rainbow -- create and use a perceptually uniform array of colors.
+ * The Rainbow class creates and uses a perceptually uniform array of colors.
  *
  * See https://peterkovesi.com/projects/colourmaps/ and https://arxiv.org/abs/1509.03700.
  */

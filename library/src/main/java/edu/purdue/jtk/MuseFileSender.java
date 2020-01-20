@@ -1,9 +1,5 @@
 package edu.purdue.jtk;
 
-/*
- * Beginning of a class to send packets to a waiting Muse Art listener.
- */
-
 import netP5.NetAddress;
 import oscP5.OscMessage;
 import oscP5.OscP5;
@@ -12,6 +8,10 @@ import oscP5.OscProperties;
 import java.io.IOException;
 import java.net.*;
 
+/**
+ * The MuseFileSender class is an alternative to MuseFileReader for pulling Muse data from a file and sending it
+ * to a waiting Muse Listener object.  This code is incomplete and is not yet integrated into the library.
+ */
 public class MuseFileSender {
     private OscP5 oscp5;
     private NetAddress destination;

@@ -1,11 +1,15 @@
 package edu.purdue.jtk;
 
-// Formulas from http://datagenetics.com/blog/november22017
-//
-// u_n = u_n-1 + (x_n - u_n-1) / n
-// S_n = S_n-1 + (x_n - u_n-1)(x_n - u_n)
-// s_n = sqrt(S_n / n)
 
+/**
+ * The Statistic class is used to compute and display basic statistical values.
+ *
+ * Formulas from http://datagenetics.com/blog/november22017
+ *
+ * u_n = u_n-1 + (x_n - u_n-1) / n
+ * S_n = S_n-1 + (x_n - u_n-1)(x_n - u_n)
+ * s_n = sqrt(S_n / n)
+ */
 public class Statistic {
     private String name;
     private double max, min;

@@ -1,7 +1,12 @@
 package edu.purdue.jtk;
 
-//import WindowedScaler;
-
+/**
+ * The Model class contains all the data that is shared between the Muse headband (including data and file
+ * generators) and the views that display the data.
+ *
+ * @author Tim Korb
+ * @since 1.0.0
+ */
 class Model {
     /**
      * BEGIN MODEL
@@ -29,12 +34,20 @@ class Model {
      * END MODEL
      */
 
+    /**
+     * Creates a Muse model.
+     *
+     * @param ms    the MuseStatistics object used to record statistics about the data received.
+     */
     Model(MuseStatistics ms) {
         this.ms = ms;
-        resetGrid();
+        reset();
     }
 
-    void resetGrid() {
+    /**
+     * Resets the grid and other data structures that holds the shared data.
+     */
+    void reset() {
         long currentTime = System.currentTimeMillis();
 
         for (Wave wave : Wave.values())
@@ -173,11 +186,7 @@ class Model {
         return doSmoothing;
     }
 
-    boolean getUpscaling() { return allowUpscaling; }
-
-//    public void resetScaling() {
-//        for (Wave wave : Wave.values())
-//            for (Sensor sensor : Sensor.values())
-//                wsGrid[wave.value][sensor.value].resetScale();
-//    }
+    boolean getUpscaling() {
+        return allowUpscaling;
+    }
 }

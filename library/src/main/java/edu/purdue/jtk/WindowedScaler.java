@@ -2,15 +2,15 @@ package edu.purdue.jtk;
 
 import java.util.LinkedList;
 
+/**
+ * The WindowedScaler class is used to track and scale wave values over a sliding window of time.
+ *
+ * References (an efficient and elegant algorithm!):
+ *     https://stackoverflow.com/questions/27170216/keep-track-on-biggest-element-in-fifo-queue
+ *     https://www.geeksforgeeks.org/window-sliding-technique/
+ *     https://www.nayuki.io/page/sliding-window-minimum-maximum-algorithm
+ */
 class WindowedScaler {
-    /*
-     * Track and Scale Wave Values over a Sliding Window
-     *
-     * References:
-     *     https://stackoverflow.com/questions/27170216/keep-track-on-biggest-element-in-fifo-queue
-     *     https://www.geeksforgeeks.org/window-sliding-technique/
-     *     https://www.nayuki.io/page/sliding-window-minimum-maximum-algorithm
-     */
     private LinkedList<Float> queue = new LinkedList<>();
     private LinkedList<Float> maxima = new LinkedList<>();
     private LinkedList<Float> minima = new LinkedList<>();

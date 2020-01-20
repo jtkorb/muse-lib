@@ -4,6 +4,10 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 
+/**
+ * MuseGenerator generates configurable pseudo-random events to send to a MuseListener.  It is used for debugging
+ * and demonstration.
+ */
 public class MuseGenerator extends MuseSource implements Runnable {
     private Generate generate;
     private Queue<MuseMessage> queue;
@@ -236,7 +240,7 @@ public class MuseGenerator extends MuseSource implements Runnable {
             dispatchMessage(mm.addrPattern(), mm);
         }
 
-        model.resetGrid();  // NB: This ia a bit of a hack--the resetGrid() should be handled elsewhere, after the Generator is fully shutdown.
+        model.reset();  // NB: This ia a bit of a hack--the resetGrid() should be handled elsewhere, after the Generator is fully shutdown.
         System.out.println("Generator shutting down.");
     }
 

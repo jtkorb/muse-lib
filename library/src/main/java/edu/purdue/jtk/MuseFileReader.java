@@ -13,6 +13,9 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.PriorityQueue;
 
+/**
+ * The MuseFileReader class provides a Muse source that pulls data from a file instead of the Muse headband.
+ */
 class MuseFileReader extends MuseSource implements Runnable {
     private MuseListener ml;
     private PriorityQueue<MuseMessage> queue;

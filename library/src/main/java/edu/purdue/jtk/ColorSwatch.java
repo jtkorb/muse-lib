@@ -6,14 +6,27 @@ import controlP5.ControllerView;
 import processing.core.PFont;
 import processing.core.PGraphics;
 
-
+/**
+ * ColorSwatch is a controller class for creating color swatch objects and their associated views.  Used with ControlP5.
+ *
+ * @author Tim Korb
+ * @since 1.0.0
+ */
 class ColorSwatch extends Controller<ColorSwatch> {
     final static int WIDTH = 50;
     final static int HEIGHT = 285;
 
-    ColorSwatch(ControlP5 controlP5, PFont pf, int fontColor, String s, Muse muse) {
+    /**
+     * Creates a color swatch object for on-screen viewing.
+     *
+     * @param controlP5     the control where the object will appear
+     * @param pf            the font to use
+     * @param fontColor     the font color
+     * @param s             the string to display in the view
+     */
+    ColorSwatch(ControlP5 controlP5, PFont pf, int fontColor, String s) {
         super(controlP5, s);
-        setView(new ColorSwatchView(muse, pf, fontColor, WIDTH, HEIGHT));
+        setView(new ColorSwatchView(pf, fontColor, WIDTH, HEIGHT));
     }
 
     public int getWidth() { return WIDTH; }
@@ -21,21 +34,36 @@ class ColorSwatch extends Controller<ColorSwatch> {
 
 }
 
+/**
+ * ColorSwatchView is a class for viewing ColorSwatch objects.
+ */
 class ColorSwatchView implements ControllerView<ColorSwatch> {
-    Muse muse;
     private PFont pf;
     private int fontColor;
     private int width;
     private int height;
 
-    ColorSwatchView(Muse muse, PFont pf, int fontColor, int width, int height) {
-        this.muse = muse;
+    /**
+     * Creates a view of the color swatch object.
+     *
+     * @param pf            the font to use for labeling the swatches
+     * @param fontColor     the font color
+     * @param width         the width of the swatch
+     * @param height        the height of the entire swatch
+     */
+    ColorSwatchView(PFont pf, int fontColor, int width, int height) {
         this.pf = pf;
         this.fontColor = fontColor;
         this.width = width;
         this.height = height;
     }
 
+    /**
+     * Displays a color swatch.  Called by ControlP5.
+     *
+     * @param p             the PGraphics object for drawing
+     * @param colorSwatch   the associated color swatch data (unused)
+     */
     @Override
     public void display(PGraphics p, ColorSwatch colorSwatch) {
         p.fill(0);

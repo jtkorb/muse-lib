@@ -4,6 +4,10 @@ import oscP5.OscEventListener;
 import oscP5.OscP5;
 import oscP5.OscStatus;
 
+/**
+ * The MuseListener class is a MuseSource that reads data from a Muse headband, sent by the Muse Direct or
+ * compatible app (i.e., using the Open Sound Connect protocol with pre-defined event names).
+ */
 class MuseListener extends MuseSource implements OscEventListener {
     private OscP5 oscP5;
     private String ipAddress;

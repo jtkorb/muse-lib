@@ -2,6 +2,9 @@ package edu.purdue.jtk;
 
 import oscP5.OscMessage;
 
+/**
+ * The MuseMessage class encapsulates the data sent from the Muse headband (or proxy sources) to the Model.
+ */
 class MuseMessage extends OscMessage implements Comparable<MuseMessage> {
     private Double timestamp;
 

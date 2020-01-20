@@ -1,7 +1,7 @@
 package edu.purdue.jtk;
 
 /**
- * Sensor locations used by the Muse headband (FH = forehead).
+ * The Sensor class enumerates locations used by the Muse headband (FH = forehead).
  */
 public enum Sensor {
     LEFT_EAR(0, "Left Ear"),

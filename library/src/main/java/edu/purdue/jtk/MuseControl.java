@@ -4,7 +4,10 @@ import controlP5.*;
 import processing.core.PApplet;
 import processing.core.PFont;
 
-
+/**
+ * MuseControl is a class that creates a control panel to manage the Muse/View interaction.  It
+ * also monitors the raw data coming from the Muse.
+ */
 public class MuseControl extends PApplet {
     private ControlP5 cp5 = null;
 
@@ -413,7 +416,7 @@ public class MuseControl extends PApplet {
     }
 
     public void reset() {
-        muse.model.resetGrid();
+        muse.model.reset();
         setScaleValue(100);
     }
 

@@ -1,5 +1,8 @@
 package edu.purdue.jtk;
 
+/**
+ * PointVector defines a simple point vector class for use in managing (x,y) coordinates when visualizing data.
+ */
 public class PointVector {
     public float x, y;
 

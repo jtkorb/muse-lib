@@ -6,7 +6,7 @@ import java.io.File;
  * Muse is the primary class for receiving data from the Muse headband.
  *
  * @author Tim Korb
- * @since 2.0.0
+ * @since 1.0.0
  */
 public class Muse {
     /**
@@ -185,10 +185,6 @@ public class Muse {
             ((MuseGenerator) source).setGenerate(generate);
     }
 
-//    public void resetScaling() {
-//        model.resetScaling();
-//    }
-
     public boolean isPaused() {
         return isPaused;
     }
@@ -200,7 +196,7 @@ public class Muse {
     public void clearSource() {
         if (source != null) {
             source.shutdown();
-            model.resetGrid();
+            model.reset();
             source = null;
         }
     }
@@ -211,10 +207,10 @@ public class Muse {
 
         if (source != null) {
             source.shutdown();
-            model.resetGrid();
+            model.reset();
         }
         // NB: Reset model and ms?
-        model.resetGrid();  // NB: Partial fix for the race condition below.
+        model.reset();  // NB: Partial fix for the race condition below.
         source = new MuseListener(8000, model, ms);
     }
 
@@ -224,7 +220,7 @@ public class Muse {
 
         if (source != null) {
             source.shutdown();
-            model.resetGrid();  // NB: Race condition--the generator drops a few into the grid after it is reset.
+            model.reset();  // NB: Race condition--the generator drops a few into the grid after it is reset.
         }
 
         // NB: Reset model and ms?
@@ -237,7 +233,7 @@ public class Muse {
 
         if (source != null) {
             source.shutdown();
-            model.resetGrid();
+            model.reset();
         }
 
         // NB: Reset model and ms?

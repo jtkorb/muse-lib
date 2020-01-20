@@ -1,5 +1,8 @@
 package edu.purdue.jtk;
 
+/**
+ * The abstract MuseSource class is the interface between the Muse data and the Model.
+ */
 abstract class MuseSource {
     protected final Model model;
     private final MuseStatistics ms;
