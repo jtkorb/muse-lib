@@ -8,7 +8,5 @@ allprojects {
                 artifact()
             }
 	    }
-
-        flatDir dirs: "$rootProject.projectDir/external-libs"
     }
 }
