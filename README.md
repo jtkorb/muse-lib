@@ -5,10 +5,12 @@ This library, and the included demos, require a Muse headband with compatible
 mobile application (e.g., Muse Direct or Mind Monitor).  The mobile application
 connects to the headband and relays neural data to the demo application via this library.
 
-    Muse headband ->
-        mobile Muse application ->
-        computer running this library ->
-        demo application
+```
+Muse headband ->
+    mobile Muse application ->
+    computer running this library ->
+    demo application
+```
 
 This software and the smartphone connection apps have been tested with the original Muse and Muse 2 headbands,
 but not the Muse S.
@@ -25,9 +27,10 @@ but not the Muse S.
 * Fork this repository and clone it to your computer.
 * Build and test with Gradle; run demo (on Windows, use ./gradlew.bat):
 
-
-    $ ./gradlew build
-    $ ./gradlew demos:bubbles:run
+```
+$ ./gradlew build
+$ ./gradlew demos:bubbles:run
+```
 
 ## Working with the Muse Headband
 
@@ -58,7 +61,9 @@ Included with this repository is a Gradle configuration to run the "Launcher" de
 [Purdue 2050 Conference of the Future](https://www.purdue.edu/discoverypark/2050/index.php).  To run the
 demonstration, use the gradle command:
 
-    $ ./gradlew demos:launcher:run
+```
+$ ./gradlew demos:launcher:run
+````
 
 While the main window is "active" (on top), use the "1" and "2" keys to toggle between demonstrations, 
 "Focus" and "Calm", respectively.
