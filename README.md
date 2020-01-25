@@ -24,8 +24,10 @@ but not the Muse S.
 
 * Fork this repository and clone it to your computer.
 * Build and test with Gradle; run demo (on Windows, use ./gradlew.bat):
-  * ./gradlew build
-  * ./gradlew demos:bubbles:run
+
+
+    $ ./gradlew build
+    $ ./gradlew demos:bubbles:run
 
 ## Working with the Muse Headband
 
@@ -51,8 +53,12 @@ The Control Panel provides monitoring and some control over the data arriving fr
 
 ## Launcher Demo
 
-Included with this repository is a Gradle configuration to run the "Launcher" used in the
-[ArtWave demonstration](https://www.purdue.edu/discoverypark/2050/exhibits.php) at the
-[Purdue 2050 Conference of the Future](https://www.purdue.edu/discoverypark/2050/index.php).  To run
+Included with this repository is a Gradle configuration to run the "Launcher" demo used in the
+[ArtWaves demonstration](https://www.purdue.edu/discoverypark/2050/exhibits.php) at the
+[Purdue 2050 Conference of the Future](https://www.purdue.edu/discoverypark/2050/index.php).  To run the
 demonstration, use the gradle command:
-* ./gradlew demos:launcher:run
+
+    $ ./gradlew demos:launcher:run
+
+While the main window is "active" (on top), use the "1" and "2" keys to toggle between demonstrations, 
+"Focus" and "Calm", respectively.
