@@ -59,11 +59,11 @@ The Control Panel provides monitoring and some control over the data arriving fr
 Included with this repository is a Gradle configuration to run the "Launcher" demo used in the
 [ArtWaves demonstration](https://www.purdue.edu/discoverypark/2050/exhibits.php) at the
 [Purdue 2050 Conference of the Future](https://www.purdue.edu/discoverypark/2050/index.php).  To run the
-demonstration, use the gradle command:
+demonstration, use the Gradle command:
 
 ```
 $ ./gradlew demos:launcher:run
 ````
 
-While the main window is "active" (on top), use the "1" and "2" keys to toggle between demonstrations, 
+While the main window is "active" (on top), use the "1" and "2" keys to toggle between demonstrations,
 "Focus" and "Calm", respectively.
