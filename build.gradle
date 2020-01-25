@@ -3,10 +3,10 @@ allprojects {
         jcenter()
 
         maven {
-		    url  "https://dl.bintray.com/jtkorb/NeuralArt"
+            url  "https://dl.bintray.com/jtkorb/NeuralArt"
             metadataSources {
                 artifact()
             }
-	    }
+        }
     }
 }

@@ -1,0 +1,16 @@
+plugins {
+    id 'application'
+}
+
+//repositories {
+//    flatDir {
+//        dirs "src/main/resources"
+//    }
+//}
+
+dependencies {
+    implementation(group: 'launcher', name: 'launcher', version: '1.0.0')
+    implementation project(":library")
+}
+
+mainClassName = 'Launcher'
