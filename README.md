@@ -5,12 +5,12 @@ This library, and the included demos, require a Muse headband with compatible
 mobile application (e.g., Muse Direct or Mind Monitor).  The mobile application
 connects to the headband and relays neural data to the demo application via this library.
 
-    Muse headband -> 
-        mobile Muse application -> 
-        computer running this library -> 
+    Muse headband ->
+        mobile Muse application ->
+        computer running this library ->
         demo application
 
-This software and the smartphone connection apps have been tested with the original Muse and Muse 2 headbands, 
+This software and the smartphone connection apps have been tested with the original Muse and Muse 2 headbands,
 but not the Muse S.
 
 ## Software Environment
@@ -43,9 +43,16 @@ but not the Muse S.
 The Control Panel provides monitoring and some control over the data arriving from the Muse headband.  See this [annotated image](https://imgur.com/a/OZXjMig).
 
 * **Source selection:** Selects the source for Muse data: headband, generator, or file.  Loading data from a file is not currently implemented from the Control Panel.
-* **Right forehead / Right ear:** The four regions of five wave blocks correspond to the four brainwave sensors on the Muse headband. 
+* **Right forehead / Right ear:** The four regions of five wave blocks correspond to the four brainwave sensors on the Muse headband.
 * **Contact quality:** Shows the quality of physical connection with the headband.  Green is good, yellow is poor, red is bad, and black is none.
 * **Wave selection:** Choose which waves are to be displayed by the application.  (Note: The Control Panel displays all waves, regardless of selection).
 * **Sensor selection:** Choose which of the four sensors are to be displayed by the application. (Note: The Control Panel displays all waves, regardless of selection).
 * **Feature selection:** Choose optional processing to be performed by the library on the waves.
 
+## Launcher Demo
+
+Included with this repository is a Gradle configuration to run the "Launcher" used in the
+[ArtWave demonstration](https://www.purdue.edu/discoverypark/2050/exhibits.php) at the
+[Purdue 2050 Conference of the Future](https://www.purdue.edu/discoverypark/2050/index.php).  To run
+demonstration, use the gradle command:
+* ./gradlew demos:launcher:run
