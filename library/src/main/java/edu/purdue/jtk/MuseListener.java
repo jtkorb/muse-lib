@@ -17,7 +17,8 @@ class MuseListener extends MuseSource implements OscEventListener {
     MuseListener(int port, Model model, MuseStatistics ms) {
         super(model, ms);
         oscP5 = new OscP5(this, port); // calls oscEvent as Muse events arrive
-        ipAddress = oscP5.ip();
+//        ipAddress = oscP5.ip();
+        ipAddress = NetworkInterfaces.getNonLoopbackAddress();
     }
 
     String getIPAddress() { return ipAddress; }
