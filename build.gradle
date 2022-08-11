@@ -1,12 +1,12 @@
 allprojects {
-    repositories {
-        jcenter()
 
-        maven {
-            url  "https://dl.bintray.com/jtkorb/NeuralArt"
-            metadataSources {
-                artifact()
-            }
+    def home = System.env.HOME
+
+    repositories {
+        mavenCentral()
+        
+        flatDir {
+            dirs "$home/lib/processing-core", "$home/lib/controlp5", "$home/lib/oscp5"
         }
     }
 }
