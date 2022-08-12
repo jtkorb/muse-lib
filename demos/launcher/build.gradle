@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    implementation(group: 'launcher', name: 'launcher', version: '1.0.0')
+//    implementation(group: 'launcher', name: 'launcher', version: '1.0.0')
     implementation project(":library")
 }
 
