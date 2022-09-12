@@ -41,7 +41,8 @@ $ ./gradlew demos:bubbles:run
 * Launch one of the demo apps (bubbles or control_layout).
 * On the control panel, select the "Headband" check box.  An IP address will appear.
 * Configure the smartphone app with the given IP address and port 8000.  Note that the smartphone must be able to connect to this IP address, e.g., the IP address is public or the smartphone is connected to the same private network.
-* Packets should start to flow and the display react.
+* Ensure the smartphone app is sending individual sensor values, not averages.  (In Mind Monitor, for example, on the Settings cog tab, set OSC Stream Brainwaves to "All values".)
+* Packets should start to flow and the display react.  (The Mind Monitor app has a streaming control icon (concentric 3/4 circles) at the bottom to toggle whether data is streamed to the headphone or not.  Ensure this icon has a backslash through it.)
 
 ## Control Panel
 
