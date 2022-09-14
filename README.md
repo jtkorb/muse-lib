@@ -17,7 +17,7 @@ but not the Muse S.
 
 ## Software Environment
 
-* Java 8
+* Java 18
 * Git
 * Gradle (optional, will be installed by gradlew script below)
 * IntelliJ IDEA CE (optional)
