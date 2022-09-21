@@ -41,7 +41,7 @@ public class NetworkInterfaces {
             NetworkInterface e = n.nextElement();
             System.out.println("Interface: " + e.getName());
             Enumeration<InetAddress> a = e.getInetAddresses();
-            for (; a.hasMoreElements(); ) {
+            while (a.hasMoreElements()) {
                 InetAddress addr = a.nextElement();
                 System.out.format("\t%s: any = %b, link = %b, loopback = %b, byte = %x, length = %d\n",
                         addr.getHostAddress(),
