@@ -1,3 +1,5 @@
+defaultTasks 'demos:bubbles:run'
+
 allprojects {
 
     def home = System.env.HOME
