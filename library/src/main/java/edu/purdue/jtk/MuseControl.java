@@ -68,8 +68,8 @@ public class MuseControl extends PApplet {
 
     @Override
     public void settings() {
-//        fullScreen();
-        size(900, 700);
+        fullScreen();
+//        size(900, 700);
     }
 
     @Override
