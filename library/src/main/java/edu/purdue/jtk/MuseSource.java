@@ -42,6 +42,8 @@ abstract class MuseSource {
             case "horseshoe":
                 storeHorseshoe(mm);
                 break;
+            default:
+                System.out.printf("Unknown address: %s\n", address);
         }
     }
 
