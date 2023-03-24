@@ -22,6 +22,12 @@ but not the Muse S.
 * Gradle (optional, will be installed by gradlew script below)
 * IntelliJ IDEA CE (optional)
 
+## Libraries Needed
+
+* [OSCP5](https://code.google.com/archive/p/oscp5/downloads)
+* [ControlP5](https://www.sojamo.de/libraries/controlP5/)
+* [Processing Core](https://processing.org/download)
+
 ## Installation Steps
 
 * Fork this repository and clone it to your computer.
