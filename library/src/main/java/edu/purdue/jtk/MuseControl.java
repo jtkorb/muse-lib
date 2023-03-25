@@ -68,7 +68,9 @@ public class MuseControl extends PApplet {
 
     @Override
     public void settings() {
-        fullScreen();
+        int display = 2;
+        fullScreen(display);
+        System.out.format("Control panel on display %d\n", display);
 //        size(900, 700);
     }
 
