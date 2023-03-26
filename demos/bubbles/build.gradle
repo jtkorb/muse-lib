@@ -6,4 +6,4 @@ dependencies {
     implementation project(":library")
 }
 
-mainClassName = 'Bubbles'
+mainClassName = 'bubbles.Bubbles'

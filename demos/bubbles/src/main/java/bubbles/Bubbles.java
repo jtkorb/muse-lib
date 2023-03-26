@@ -1,3 +1,5 @@
+package bubbles;
+
 import edu.purdue.jtk.*;
 import processing.core.PApplet;
 import processing.core.PGraphics;
@@ -154,7 +156,7 @@ public class Bubbles extends PApplet {
     }
 
     public static void main(String[] args) {
-        String[] appletArgs = new String[] { "Bubbles" };
+        String[] appletArgs = new String[] { "bubbles.Bubbles" };
         PApplet.main(appletArgs);
     }
 }
