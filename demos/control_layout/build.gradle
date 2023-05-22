@@ -6,4 +6,4 @@ dependencies {
     implementation project(":library")
 }
 
-mainClassName = 'ControlLayout'
+mainClassName = 'control_layout.ControlLayout'
