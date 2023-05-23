@@ -1,6 +1,7 @@
 // See JetBrains list here:
 //    https://github.com/github/gitignore/blob/master/Global/JetBrains.gitignore
 .idea/**/workspace.xml
+.vscode
 *.class
 out/
 private/
