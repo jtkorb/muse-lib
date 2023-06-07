@@ -1,6 +1,7 @@
 defaultTasks 'demos:bubbles:run'
 
 allprojects {
+    apply plugin: 'application'
 
     def home = System.env.HOME
 
@@ -10,5 +11,16 @@ allprojects {
         flatDir {
             dirs "$home/lib/processing-core", "$home/lib/controlp5", "$home/lib/oscp5"
         }
+    }
+
+    test {
+        useJUnitPlatform()
+        testLogging {
+            events "passed"
+        }
+    }
+
+    dependencies {
+        testImplementation(group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.5.2')
     }
 }

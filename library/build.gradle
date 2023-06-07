@@ -2,13 +2,7 @@ plugins {
     id 'java-library'
 }
 
-test {
-    useJUnitPlatform()
-}
-
 dependencies {
-    testImplementation(group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.5.2')
-
     implementation(group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1')
     api(group: 'org.processing', name: 'processing-core', version: '4.1.2')
     api(group: 'oscP5', name: 'oscP5', version: '0.9.9')
