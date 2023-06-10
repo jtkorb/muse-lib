@@ -84,6 +84,7 @@ public class Muse {
         return mc;
     }
 
+    @SuppressWarnings("unused")
     private PointVector[] computeSensorVector() {
         PointVector[] pvSensors = new PointVector[Sensor.values().length];
         pvSensors[Sensor.LEFT_EAR.value] = new PointVector(0, 0);

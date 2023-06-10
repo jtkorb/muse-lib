@@ -438,7 +438,8 @@ public class MuseControl extends PApplet {
 
     //@formatter:off
     public int getScaleValue() {
-        return (int) scaleSlider.getValue();
+        // return (int) scaleSlider.getValue();
+        return scaleValue;
     }
 
     public boolean getShowFocus() {
