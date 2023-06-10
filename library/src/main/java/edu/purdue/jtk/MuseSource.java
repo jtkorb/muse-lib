@@ -42,7 +42,7 @@ abstract class MuseSource {
             case "horseshoe":
                 storeHorseshoe(mm);
                 break;
-            case "blink", "gyro", "acc", "eeg":
+            case "blink", "gyro", "acc", "eeg", "batt", "jaw_clench", "connected", "disconnected":
                 break;
             default:
                 System.out.printf("Unknown address: %s\n", address);
