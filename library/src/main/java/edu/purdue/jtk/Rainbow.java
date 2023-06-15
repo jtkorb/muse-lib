@@ -14,7 +14,7 @@ public class Rainbow {
     public static int get(float f) {
         if (f < 0 || f > 1.0)
             return 0; // Use black for data out of range (typically, NaN from headband)
-        int i = (int) (f * 255);
+        int i = (int) (f * 255);  // TODO: Should this value be rounded instead of truncated?
         return rainbow[i];
     }
 
