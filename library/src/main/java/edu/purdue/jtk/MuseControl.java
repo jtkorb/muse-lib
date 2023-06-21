@@ -205,9 +205,9 @@ public class MuseControl extends PApplet {
             muse.setGenerate(Generate.LeftBrain);
         else if (key == CODED && keyCode == RIGHT)
             muse.setGenerate(Generate.RightBrain);
-        else if (key == '1')
+        else if (key == ']')
             muse.setGenerate(Generate.MaxRight);
-        else if (key == '0')
+        else if (key == '[')
             muse.setGenerate(Generate.Zero);
         else if (key == 'p')
             muse.setPaused(!muse.isPaused());
