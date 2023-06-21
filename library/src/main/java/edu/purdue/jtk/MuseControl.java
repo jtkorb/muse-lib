@@ -5,8 +5,8 @@ import processing.core.PApplet;
 import processing.core.PFont;
 
 /**
- * MuseControl is a class that creates a control panel to manage the Muse/View interaction.  It
- * also monitors the raw data coming from the Muse.
+ * MuseControl is a class that creates a control panel to manage the Muse/View
+ * interaction. It also monitors the raw data coming from the Muse.
  */
 public class MuseControl extends PApplet {
     private ControlP5 cp5 = null;
@@ -51,7 +51,7 @@ public class MuseControl extends PApplet {
         this.muse = muse;
         this.testing = testing;
         if (!testing)
-            PApplet.runSketch(new String[]{this.getClass().getSimpleName()}, this);
+            PApplet.runSketch(new String[] { this.getClass().getSimpleName() }, this);
 
         enableWaves = new boolean[Wave.values().length];
         for (Wave wave : Wave.values())
@@ -71,7 +71,7 @@ public class MuseControl extends PApplet {
         int display = 1;
         fullScreen(display);
         System.out.format("Control panel on display %d\n", display);
-//        size(900, 700);
+        // size(900, 700);
     }
 
     @Override
@@ -122,7 +122,8 @@ public class MuseControl extends PApplet {
             PFont pf1 = createFont(FONT_NAME, 10 + i, true);
             cp5.addTextlabel(String.format("test1%02d", i))
                     .setFont(pf1)
-                    .setText(String.format("Test YyYyYy %d: %s; size = %d, smooth = %b", i, pf1.getName(), pf1.getSize(), pf1.isSmooth()))
+                    .setText(String.format("Test YyYyYy %d: %s; size = %d, smooth = %b", i, pf1.getName(),
+                            pf1.getSize(), pf1.isSmooth()))
                     .setPosition(LEFT_MARGIN, TOP_MARGIN + dy)
                     .moveTo("Test")
                     .setColor(0);
@@ -131,12 +132,12 @@ public class MuseControl extends PApplet {
             PFont pf2 = createFont(FONT_NAME, 10 + i, false);
             cp5.addTextlabel(String.format("test2%02d", i))
                     .setFont(pf2)
-                    .setText(String.format("Test YyYyYy %d: %s; size = %d, smooth = %b", i, pf2.getName(), pf2.getSize(), pf2.isSmooth()))
+                    .setText(String.format("Test YyYyYy %d: %s; size = %d, smooth = %b", i, pf2.getName(),
+                            pf2.getSize(), pf2.isSmooth()))
                     .setPosition(LEFT_MARGIN, TOP_MARGIN + dy)
                     .moveTo("Test");
             dy += pf2.getSize();
         }
-
 
         // Global Group
         cp5.addFrameRate().setInterval(10).setPosition(width - LEFT_MARGIN - 20, height - 20).moveTo("global");
@@ -153,8 +154,8 @@ public class MuseControl extends PApplet {
     @Override
     public void draw() {
         background(BACKGROUND_COLOR);
-//        if (frameCount == 1)
-//            surface.setLocation(displayWidth - width, displayHeight - height - 50);
+        // if (frameCount == 1)
+        // surface.setLocation(displayWidth - width, displayHeight - height - 50);
     }
 
     @Override
@@ -174,13 +175,19 @@ public class MuseControl extends PApplet {
         this.kc = kc;
     }
 
+    /**
+     * keyPressed() -- handle key press event from Processing. If not handled by
+     * local handleKeyPress procedure, call a registered one, if available.
+     */
     @Override
     public void keyPressed() {
-        // Try local key handler; if that fails, call Muse app key handler (if available)
-        if (!handleKeyPressed(key, keyCode) && kc != null) {
-            if (!kc.handleKeyPressed(key, keyCode))
-                System.err.printf("Key %c to Control Panel ignored\n", key);
-        }
+        // Try local key handler; if that fails, call Muse app key callback handler (if
+        // available)
+        if (handleKeyPressed(key, keyCode))
+            return;
+        else if (kc != null && kc.handleKeyPressed(key, keyCode))
+            return;
+        System.err.printf("Key (%c, %d) to Control Panel ignored\n", key, keyCode);
     }
 
     public boolean handleKeyPressed(char key, int keyCode) {
@@ -213,7 +220,6 @@ public class MuseControl extends PApplet {
         return true;
     }
 
-
     /*
      * THE INTERFACE ADDERS
      */
@@ -236,8 +242,7 @@ public class MuseControl extends PApplet {
                 .setNoneSelectedAllowed(true)
                 .addItem("Headband", 0)
                 .addItem("Generator", 1)
-                .addItem("File", 2)
-                ;
+                .addItem("File", 2);
 
         for (Toggle t : source.getItems()) {
             Label cl = t.getCaptionLabel();
@@ -275,7 +280,7 @@ public class MuseControl extends PApplet {
     }
 
     private void addToggleSmoothing(ControlP5 cp5, int x, int y) {
-        Textlabel lb = cp5.addLabel("Smoothing", x + 18, y +  + LABEL_FUDGE).setFont(pf).setColor(FONT_COLOR);
+        Textlabel lb = cp5.addLabel("Smoothing", x + 18, y + +LABEL_FUDGE).setFont(pf).setColor(FONT_COLOR);
         toggleSmoothing = cp5.addToggle("toggleSmoothing")
                 .setPosition(x, y)
                 .setColorForeground(color(255, 255, 0))
@@ -360,7 +365,7 @@ public class MuseControl extends PApplet {
                 .setColorBackground(color(200))
                 .moveTo("Console");
 
-//        cp5.addConsole(myTextarea);
+        // cp5.addConsole(myTextarea);
     }
 
     private void addResetButton(ControlP5 cp5, int x, int y) {
@@ -387,7 +392,7 @@ public class MuseControl extends PApplet {
                 .setWidth(200)
                 .setRange(0, SCALE_MAX)
                 .setValue(100);
-//                .moveTo("global");
+        // .moveTo("global");
         scaleSlider.getCaptionLabel().setFont(pf).setColor(FONT_COLOR).toUpperCase(false);
     }
 
@@ -418,14 +423,21 @@ public class MuseControl extends PApplet {
         } else if (event.isFrom(source)) {
             ipAddress.setValue("");
             switch ((int) source.getValue()) {
-                case -1: muse.clearSource(); break;
+                case -1:
+                    muse.clearSource();
+                    break;
                 case 0:
                     muse.setHeadbandSource();
                     ipAddress.setValue(((MuseListener) (muse.source)).getIPAddress());
                     break;
-                case 1: muse.setGeneratorSource(); break;
-                case 2: muse.setFileSource(); break;
-                default: assert false;
+                case 1:
+                    muse.setGeneratorSource();
+                    break;
+                case 2:
+                    muse.setFileSource();
+                    break;
+                default:
+                    assert false;
             }
         }
     }
@@ -441,12 +453,12 @@ public class MuseControl extends PApplet {
 
     public void waveChooser(float[] a) {
         // Nothing needs to be done.
-//        System.out.format("waveChooser called\n");
+        // System.out.format("waveChooser called\n");
     }
 
     public void sensorChooser(float[] a) {
         // Nothing needs to be done.
-//        System.out.format("sensorChooser called\n");
+        // System.out.format("sensorChooser called\n");
     }
 
     /*
