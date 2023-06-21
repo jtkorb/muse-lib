@@ -168,8 +168,22 @@ public class MuseControl extends PApplet {
         keyPressed();
     }
 
+    private KeyCallback kc = null;
+
+    public void registerKeyPress(KeyCallback kc) {
+        this.kc = kc;
+    }
+
     @Override
     public void keyPressed() {
+        // Try local key handler; if that fails, call Muse app key handler (if available)
+        if (!handleKeyPressed(key, keyCode) && kc != null) {
+            if (!kc.handleKeyPressed(key, keyCode))
+                System.err.printf("Key %c to Control Panel ignored\n", key);
+        }
+    }
+
+    public boolean handleKeyPressed(char key, int keyCode) {
         if (key == 'u')
             muse.setGenerate(Generate.Unfocused);
         else if (key == 'f')
@@ -194,6 +208,9 @@ public class MuseControl extends PApplet {
             muse.setGenerate(Generate.Winner);
         else if (key == 'l')
             muse.setGenerate(Generate.Loser);
+        else
+            return false;
+        return true;
     }
 
 
