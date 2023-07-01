@@ -14,8 +14,9 @@ public class Bubbles extends PApplet {
     private PGraphics pg;
 
     public void settings() {
-        fullScreen(1);
-//        size(624, 416);
+        int display = 2;
+        fullScreen(display);
+        System.out.printf("Screen %d is %d wide and %d high\n", display, displayWidth, displayHeight);
     }
 
     /**
@@ -57,6 +58,8 @@ public class Bubbles extends PApplet {
 
         float useScale = mc.getScaleValue() / 100F;
 
+        // TODO: This scale is a kludge for PB projector; how to automate?
+        // pg.scale(14f/15f, 1f);
 
         // Draw the waves...
         for (Wave wave : Wave.values())
