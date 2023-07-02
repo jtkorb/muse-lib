@@ -157,6 +157,11 @@ public class Muse {
         return pv;
     }
 
+    /**
+     * Returns a measure of the overall brain activity by adding the values of all shown waves and sensors.
+     * 
+     * @return  average value of all shown sensors
+     */
     public float computeActivity() {
         int c = 0;
         float value = 0;
