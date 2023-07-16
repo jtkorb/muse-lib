@@ -5,7 +5,7 @@ package edu.purdue.jtk;
  */
 abstract class MuseSource {
     protected final Model model;
-    private final MuseStatistics ms;
+    final MuseStatistics ms;
 
     private final int SENSOR_LENGTH = Sensor.values().length;
 

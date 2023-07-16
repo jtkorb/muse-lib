@@ -36,9 +36,13 @@ class MuseStatistics {
     }
 
     void printStats() {
+        printStats(Math.round(timeCurrent * 1000));
+    }
+
+    void printStats(long time) {
         Runtime rt = Runtime.getRuntime();
 
-        System.out.format("\nSTATISTICS at %f\n", timeCurrent);
+        System.out.format("\nSTATISTICS at %.3f\n", time / 1000F);
 
         System.out.println(focusX);
         System.out.println(focusY);
