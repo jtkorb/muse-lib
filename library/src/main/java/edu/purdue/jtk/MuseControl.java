@@ -448,7 +448,7 @@ public class MuseControl extends PApplet {
 
     public void reset() {
         muse.model.reset();
-        setScaleValue(100);
+        setScaleValue(300);
     }
 
     public void waveChooser(float[] a) {
