@@ -167,6 +167,11 @@ class Model {
         }
     }
 
+    float getDrawn(Wave wave, Sensor sensor) {
+        return gridDrawn[wave.value][sensor.value];
+    }
+
+
     /**
      * Returns an array of sensor values for the given wave.
      *
