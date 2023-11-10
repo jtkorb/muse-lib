@@ -161,14 +161,14 @@ class Model {
      * @param wave      Wave value
      * @return          an array of floats with one value for each sensor
      */
-    float[] getWaveAtSensors(Wave wave) {
-        float[] values = new float[Sensor.values().length];
-
-        for (Sensor sensor : Sensor.values())
-            values[sensor.value] = getGrid(wave, sensor);
-
-        return values;
-    }
+    // float[] getWaveAtSensors(Wave wave) {
+    //     float[] values = new float[Sensor.values().length];
+    // 
+    //     for (Sensor sensor : Sensor.values())
+    //         values[sensor.value] = getGrid(wave, sensor);
+    //
+    //     return values;
+    // }
 
     float getHorseshoe(Sensor sensor) {
         return horseshoe[sensor.value];

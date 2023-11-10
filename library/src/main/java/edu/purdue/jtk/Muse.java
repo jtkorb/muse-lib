@@ -104,6 +104,10 @@ public class Muse {
             pvSensors[Sensor.RIGHT_EAR.value].add(rightEar, -rightEar);
         }
 
+        // Ensure division by 5 in loop below is correct.  
+        // TODO: Fix with symbolic expression.
+        assert Wave.values().length == 5;
+
         for (PointVector pv : pvSensors) {
             pv.x /= 5;
             pv.y /= 5;
@@ -145,6 +149,8 @@ public class Muse {
         float rightFH = mc.getShowSensor(Sensor.RIGHT_FH) ? model.getGrid(wave, Sensor.RIGHT_FH) : 0F;
         float rightEar = mc.getShowSensor(Sensor.RIGHT_EAR) ? model.getGrid(wave, Sensor.RIGHT_EAR) : 0F;
 
+        // TODO: Check here?  If leftEar and/or rightEar are zero, substitute FH value?
+        
         pv.add(-leftEar, -leftEar);
         pv.add(-leftFH, leftFH);
         pv.add(rightFH, rightFH);
@@ -182,9 +188,9 @@ public class Muse {
         return model.getGrid(wave, sensor);
     }
 
-    public float[] getWaveAtSensors(Wave wave) {
-        return model.getWaveAtSensors(wave);
-    }
+    // public float[] getWaveAtSensors(Wave wave) {
+    //     return model.getWaveAtSensors(wave);
+    // }
 
     public void setGenerate(Generate generate) {
         if (source instanceof MuseGenerator)
