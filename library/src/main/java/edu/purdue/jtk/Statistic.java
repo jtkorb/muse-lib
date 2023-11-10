@@ -50,7 +50,7 @@ public class Statistic {
     public int getN() { return n; }
 
     public String toString() {
-        return String.format("%-15s: %14.6f <= %14.6f @ %14.6f <= %14.6f (N = %d)",
+        return String.format("%-15s: %14.6e <= %14.6f @ %14.6f <= %14.6f (N = %d)",
                 name, getMin(), getMean(), getSigma(), getMax(), getN());
     }
 }
