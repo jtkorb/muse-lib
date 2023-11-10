@@ -106,6 +106,18 @@ class Model {
         value = grid[wave.value][sensor.value];        // last received data value
         drawn = gridDrawn[wave.value][sensor.value];   // last data value drawn
 
+        // Substitute FH value if EAR is not good...
+        if (getHorseshoe(sensor) >= 2f) {
+            System.err.format("horseshoe = %f; isGood = %d\n", getHorseshoe(sensor), isGood(sensor));
+            if (sensor.value == Sensor.LEFT_EAR.value) {
+                value = grid[wave.value][Sensor.LEFT_FH.value];
+                System.err.printf("LEFT_EAR missing; using LEFT_FH (%6.3f)\n", value);
+            } else if (sensor.value == Sensor.RIGHT_EAR.value) {
+                value = grid[wave.value][Sensor.RIGHT_FH.value];
+                System.err.printf("RIGHT_EAR missing; using RIGHT_FH (%6.3f)\n", value);
+            }
+        }
+
         /*
          * The code below handles two cases...
          *   (1) No new events have arrived, but want to keep location moving at "current" speed (within limits)
