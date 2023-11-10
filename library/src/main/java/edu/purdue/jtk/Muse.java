@@ -104,7 +104,7 @@ public class Muse {
             pvSensors[Sensor.RIGHT_EAR.value].add(rightEar, -rightEar);
         }
 
-        // Ensure division by 5 in loop below is correct.  
+        // Ensure division by multiplier in loop below is correct.  
         // TODO: Fix with symbolic expression.
         assert Wave.values().length == 5;
 
@@ -144,13 +144,40 @@ public class Muse {
     public PointVector computeWaveVector(Wave wave) {
         PointVector pv = new PointVector(0, 0);
 
-        float leftFH = mc.getShowSensor(Sensor.LEFT_FH) ? model.getGrid(wave, Sensor.LEFT_FH) : 0F;
-        float leftEar = mc.getShowSensor(Sensor.LEFT_EAR) ? model.getGrid(wave, Sensor.LEFT_EAR) : 0F;
-        float rightFH = mc.getShowSensor(Sensor.RIGHT_FH) ? model.getGrid(wave, Sensor.RIGHT_FH) : 0F;
-        float rightEar = mc.getShowSensor(Sensor.RIGHT_EAR) ? model.getGrid(wave, Sensor.RIGHT_EAR) : 0F;
+        boolean showLeftFH = mc.getShowSensor(Sensor.LEFT_FH);
+        boolean showLeftEar = mc.getShowSensor(Sensor.LEFT_EAR);
+        boolean showRightFH = mc.getShowSensor(Sensor.RIGHT_FH);
+        boolean showRightEar = mc.getShowSensor(Sensor.RIGHT_EAR);
 
-        // TODO: Check here?  If leftEar and/or rightEar are zero, substitute FH value?
+        // float leftFH = mc.getShowSensor(Sensor.LEFT_FH) ? model.getGrid(wave, Sensor.LEFT_FH) : 0F;
+        // float leftEar = mc.getShowSensor(Sensor.LEFT_EAR) ? model.getGrid(wave, Sensor.LEFT_EAR) : 0F;
+        // float rightFH = mc.getShowSensor(Sensor.RIGHT_FH) ? model.getGrid(wave, Sensor.RIGHT_FH) : 0F;
+        // float rightEar = mc.getShowSensor(Sensor.RIGHT_EAR) ? model.getGrid(wave, Sensor.RIGHT_EAR) : 0F;
         
+        float leftFH, leftEar, rightFH, rightEar;
+        float leftFHDrawn, leftEarDrawn, rightFHDrawn, rightEarDrawn;
+
+        boolean NEW_WAY = true;
+
+        // Compute "drawn" first to avoid recalculation when calling "grid".
+        leftFHDrawn = model.getDrawn(wave, Sensor.LEFT_FH);
+        leftEarDrawn = model.getDrawn(wave, Sensor.LEFT_EAR);
+        rightFHDrawn = model.getDrawn(wave, Sensor.RIGHT_FH);
+        rightEarDrawn = model.getDrawn(wave, Sensor.RIGHT_EAR);
+
+        leftFH = showLeftFH ? model.getGrid(wave, Sensor.LEFT_FH) : 0;
+        leftEar = showLeftEar ? model.getGrid(wave, Sensor.LEFT_EAR) : 0;
+        rightFH = showRightFH ? model.getGrid(wave, Sensor.RIGHT_FH) : 0;
+        rightEar = showRightEar ? model.getGrid(wave, Sensor.RIGHT_EAR) : 0;
+
+        if (NEW_WAY) {
+            float multiplier = 100;
+            leftFH = multiplier * Math.abs(leftFH - leftFHDrawn);
+            leftEar = multiplier * Math.abs(leftEar - leftEarDrawn);
+            rightFH = multiplier * Math.abs(rightFH - rightFHDrawn);
+            rightEar = multiplier * Math.abs(rightEar - rightEarDrawn);
+        }
+
         pv.add(-leftEar, -leftEar);
         pv.add(-leftFH, leftFH);
         pv.add(rightFH, rightFH);
