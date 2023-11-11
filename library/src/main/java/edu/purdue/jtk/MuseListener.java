@@ -20,7 +20,7 @@ class MuseListener extends MuseSource implements OscEventListener {
     private final int SENSOR_LENGTH = Sensor.values().length;
     private final long startTime = System.currentTimeMillis();
 
-    public boolean tracing = true;
+    public boolean tracing = false;
 
     MuseListener(int port, Model model, MuseStatistics ms) {
         super(model, ms);

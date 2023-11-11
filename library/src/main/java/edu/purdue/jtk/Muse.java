@@ -157,7 +157,7 @@ public class Muse {
         float leftFH, leftEar, rightFH, rightEar;
         float leftFHDrawn, leftEarDrawn, rightFHDrawn, rightEarDrawn;
 
-        boolean NEW_WAY = true;
+        boolean NEW_WAY = false;
 
         // Compute "drawn" first to avoid recalculation when calling "grid".
         leftFHDrawn = model.getDrawn(wave, Sensor.LEFT_FH);

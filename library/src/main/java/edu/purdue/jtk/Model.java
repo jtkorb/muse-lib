@@ -108,13 +108,13 @@ class Model {
 
         // Substitute FH value if EAR is not good...
         if (getHorseshoe(sensor) >= 2f) {
-            System.err.format("horseshoe = %f; isGood = %d\n", getHorseshoe(sensor), isGood(sensor));
+            // System.err.format("horseshoe = %f; isGood = %d\n", getHorseshoe(sensor), isGood(sensor));
             if (sensor.value == Sensor.LEFT_EAR.value) {
                 value = grid[wave.value][Sensor.LEFT_FH.value];
-                System.err.printf("LEFT_EAR missing; using LEFT_FH (%6.3f)\n", value);
+                // System.err.printf("LEFT_EAR missing; using LEFT_FH (%6.3f)\n", value);
             } else if (sensor.value == Sensor.RIGHT_EAR.value) {
                 value = grid[wave.value][Sensor.RIGHT_FH.value];
-                System.err.printf("RIGHT_EAR missing; using RIGHT_FH (%6.3f)\n", value);
+                // System.err.printf("RIGHT_EAR missing; using RIGHT_FH (%6.3f)\n", value);
             }
         }
 
