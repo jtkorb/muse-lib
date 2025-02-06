@@ -28,6 +28,16 @@ but not the Muse S.
 * [ControlP5](https://www.sojamo.de/libraries/controlP5/)
 * [Processing Core](https://processing.org/download)
 
+Create a set of directories in ~/lib:
+* ~/lib/oscP5
+* ~/lib/controlP5
+* ~/lib/processing-core
+
+From the downloaded library zip files, locate the .jar files and install in the corresponding directory:
+* oscP5.jar
+* controlP5.jar
+* processing-core-4.3.2.jar (copied and renamed from Processing.app/Contents/Java/core.jar) 
+
 ## Installation Steps
 
 * Fork this repository and clone it to your computer.
@@ -60,17 +70,3 @@ The Control Panel provides monitoring and some control over the data arriving fr
 * **Wave selection:** Choose which waves are to be displayed by the application.  (Note: The Control Panel displays all waves, regardless of selection).
 * **Sensor selection:** Choose which of the four sensors are to be displayed by the application. (Note: The Control Panel displays all waves, regardless of selection).
 * **Feature selection:** Choose optional processing to be performed by the library on the waves.
-
-## Launcher Demo
-
-Included with this repository is a Gradle configuration to run the "Launcher" demo used in the
-[ArtWaves demonstration](https://www.purdue.edu/discoverypark/2050/exhibits.php) at the
-[Purdue 2050 Conference of the Future](https://www.purdue.edu/discoverypark/2050/index.php).  To run the
-demonstration, use the Gradle command:
-
-```
-$ ./gradlew demos:launcher:run
-````
-
-While the main window is "active" (on top), use the "1" and "2" keys to toggle between demonstrations,
-"Focus" and "Calm", respectively.
