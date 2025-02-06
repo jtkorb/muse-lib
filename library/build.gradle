@@ -4,7 +4,7 @@ plugins {
 
 dependencies {
     implementation(group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1')
-    api(group: 'org.processing', name: 'processing-core', version: '4.3.0')
+    api(group: 'org.processing', name: 'processing-core', version: '4.3.2')
     api(group: 'oscP5', name: 'oscP5', version: '0.9.9')
     implementation(group: 'controlP5', name: 'controlP5', version: '2.2.5')  // 2.2.7 available?
 }
