@@ -1,4 +1,5 @@
 plugins {
+    id 'base'
     id 'java-library'
 }
 
@@ -9,6 +10,9 @@ dependencies {
     implementation(group: 'controlP5', name: 'controlP5', version: '2.2.5')  // 2.2.7 available?
 }
 
-archivesBaseName = 'muse-lib'
+base {
+    archivesName = 'muse-lib'
+}
+
 group = 'edu.purdue.jtk'
 version = '1.0.0'
