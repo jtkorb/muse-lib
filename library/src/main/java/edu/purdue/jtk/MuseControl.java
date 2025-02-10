@@ -1,6 +1,16 @@
 package edu.purdue.jtk;
 
-import controlP5.*;
+import controlP5.Button;
+import controlP5.CheckBox;
+import controlP5.ControlEvent;
+import controlP5.ControlP5;
+import controlP5.ControllerStyle;
+import controlP5.Label;
+import controlP5.RadioButton;
+import controlP5.Slider;
+import controlP5.Textarea;
+import controlP5.Textlabel;
+import controlP5.Toggle;
 import processing.core.PApplet;
 import processing.core.PFont;
 
