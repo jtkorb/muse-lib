@@ -50,6 +50,7 @@ public class Rainbow {
             int color = 0xFF << 24 | red << 16 | green << 8 | blue;
             rainbow.add(color);
         }
+        br.close();
         return rainbow;
     }
 
