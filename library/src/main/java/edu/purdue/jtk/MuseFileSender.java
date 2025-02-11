@@ -1,12 +1,11 @@
 package edu.purdue.jtk;
 
-import netP5.NetAddress;
+import java.io.IOException;
+import java.net.DatagramSocket;
+
 import oscP5.OscMessage;
 import oscP5.OscP5;
 import oscP5.OscProperties;
-
-import java.io.IOException;
-import java.net.*;
 
 /**
  * The MuseFileSender class is an alternative to MuseFileReader for pulling Muse data from a file and sending it
@@ -14,9 +13,7 @@ import java.net.*;
  */
 public class MuseFileSender {
     private OscP5 oscp5;
-    private NetAddress destination;
     private DatagramSocket socket;
-    private InetAddress address;
 
     public MuseFileSender() {
         OscProperties properties = new OscProperties();

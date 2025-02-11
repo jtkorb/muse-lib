@@ -34,8 +34,8 @@ class SensorBlockGroup extends Group {
             else
                 wave = Wave.values()[i];
 
-            // wb is not used; creating the WaveBox and calling setGroup registers it with the MVC.
-            WaveBox wb = new WaveBox(cp5, pf, fontColor, s + "-" + wave.getName(), muse, wave, sensor)
+            // Create the WaveBox and call setGroup to register it with the MVC...
+            new WaveBox(cp5, pf, fontColor, s + "-" + wave.getName(), muse, wave, sensor)
                     .setCaptionLabel(wave.getName())
                     .setSize(BAR_WIDTH, BAR_HEIGHT)
                     .setPosition(SENSOR_MARGIN + i * (BAR_WIDTH + BAR_SEP),5)

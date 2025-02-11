@@ -120,8 +120,10 @@ class MuseListener extends MuseSource implements OscEventListener {
         }
 
         private class Event {
+            @SuppressWarnings("unused")
             String address;
             String heading;
+            @SuppressWarnings("unused")
             String typetag;
             Object[] arguments;
 
@@ -171,6 +173,7 @@ class MuseListener extends MuseSource implements OscEventListener {
 
     private static EventBuffer eb = null;
 
+    @SuppressWarnings("unused")
     private void dumpAbsoluteEvent(String address, MuseMessage mm) {
         long time = System.currentTimeMillis();
         System.out.format("BEGIN WAVE: %s -> %s (length %d) at %f\n",

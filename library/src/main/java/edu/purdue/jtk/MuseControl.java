@@ -8,7 +8,6 @@ import controlP5.ControllerStyle;
 import controlP5.Label;
 import controlP5.RadioButton;
 import controlP5.Slider;
-import controlP5.Textarea;
 import controlP5.Textlabel;
 import controlP5.Toggle;
 import processing.core.PApplet;
@@ -90,7 +89,6 @@ public class MuseControl extends PApplet {
         LEFT_MARGIN = LEFT_MARGIN + (width - 900) / 2;
 
         frameRate(30);
-        SensorBlockGroup sg;
         cp5 = new ControlP5(this);
         pf = createFont(FONT_NAME, FONT_SIZE, true);
 
@@ -234,7 +232,7 @@ public class MuseControl extends PApplet {
      * THE INTERFACE ADDERS
      */
     private void addSource(ControlP5 p5, int x, int y) {
-        Textlabel lb = cp5.addLabel("Source:", x, y + LABEL_FUDGE).setFont(pf).setColor(FONT_COLOR);
+        cp5.addLabel("Source:", x, y + LABEL_FUDGE).setFont(pf).setColor(FONT_COLOR);
         ipAddress = cp5.addLabel("ipAddress")
                 .setPosition(x + 400, y + LABEL_FUDGE)
                 .setFont(pf)
@@ -268,7 +266,7 @@ public class MuseControl extends PApplet {
     }
 
     private void addToggleUpscaling(ControlP5 cp5, int x, int y) {
-        Textlabel lb = cp5.addLabel("Upscaling", x + 18, y + LABEL_FUDGE).setFont(pf).setColor(FONT_COLOR);
+        cp5.addLabel("Upscaling", x + 18, y + LABEL_FUDGE).setFont(pf).setColor(FONT_COLOR);
         toggleUpscaling = cp5.addToggle("toggleUpscaling")
                 .setPosition(x, y)
                 .setColorForeground(color(255, 255, 0))
@@ -279,7 +277,7 @@ public class MuseControl extends PApplet {
     }
 
     private void addToggleActivity(ControlP5 cp5, int x, int y) {
-        Textlabel lb = cp5.addLabel("Activity", x + 18, y + LABEL_FUDGE).setFont(pf).setColor(FONT_COLOR);
+        cp5.addLabel("Activity", x + 18, y + LABEL_FUDGE).setFont(pf).setColor(FONT_COLOR);
         toggleActivity = cp5.addToggle("toggleActivity")
                 .setPosition(x, y)
                 .setColorForeground(color(255, 255, 0))
@@ -290,7 +288,7 @@ public class MuseControl extends PApplet {
     }
 
     private void addToggleSmoothing(ControlP5 cp5, int x, int y) {
-        Textlabel lb = cp5.addLabel("Smoothing", x + 18, y + +LABEL_FUDGE).setFont(pf).setColor(FONT_COLOR);
+        cp5.addLabel("Smoothing", x + 18, y + +LABEL_FUDGE).setFont(pf).setColor(FONT_COLOR);
         toggleSmoothing = cp5.addToggle("toggleSmoothing")
                 .setPosition(x, y)
                 .setColorForeground(color(255, 255, 0))
@@ -301,7 +299,7 @@ public class MuseControl extends PApplet {
     }
 
     private void addToggleFocus(ControlP5 cp5, int x, int y) {
-        Textlabel lb = cp5.addLabel("Focus", x + 18, y + LABEL_FUDGE).setFont(pf).setColor(FONT_COLOR);
+        cp5.addLabel("Focus", x + 18, y + LABEL_FUDGE).setFont(pf).setColor(FONT_COLOR);
         toggleFocus = cp5.addToggle("toggleFocus")
                 .setPosition(x, y)
                 .setColorForeground(color(255, 255, 0))
@@ -312,7 +310,7 @@ public class MuseControl extends PApplet {
     }
 
     private void addWaveChooser(ControlP5 cp5, int x, int y) {
-        Textlabel lb = cp5.addLabel("Active Waves", x - 4, y + LABEL_FUDGE).setFont(pf).setColor(FONT_COLOR);
+        cp5.addLabel("Active Waves", x - 4, y + LABEL_FUDGE).setFont(pf).setColor(FONT_COLOR);
         cbWaveChooser = cp5.addCheckBox("waveChooser")
                 .setPosition(x, y + 20)
                 .setColorForeground(color(255, 255, 0))
@@ -336,7 +334,7 @@ public class MuseControl extends PApplet {
     }
 
     private void addSensorChooser(ControlP5 cp5, int x, int y) {
-        Textlabel lb = cp5.addLabel("Active Sensors", x - 4, y + LABEL_FUDGE).setFont(pf).setColor(FONT_COLOR);
+        cp5.addLabel("Active Sensors", x - 4, y + LABEL_FUDGE).setFont(pf).setColor(FONT_COLOR);
         cbSensorChooser = cp5.addCheckBox("sensorChooser")
                 .setPosition(x, y + 20)
                 .setColorForeground(color(255, 255, 0))
@@ -365,7 +363,7 @@ public class MuseControl extends PApplet {
     }
 
     private void addConsole(ControlP5 cp5, int x, int y, int width, int height) {
-        Textarea myTextarea = cp5.addTextarea("txt")
+        cp5.addTextarea("txt")
                 .setPosition(x, y)
                 .setSize(width, height)
                 .setColor(0)

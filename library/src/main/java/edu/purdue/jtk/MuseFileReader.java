@@ -1,10 +1,5 @@
 package edu.purdue.jtk;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -13,11 +8,15 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.PriorityQueue;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 /**
  * The MuseFileReader class provides a Muse source that pulls data from a file instead of the Muse headband.
  */
 class MuseFileReader extends MuseSource implements Runnable {
-    private MuseListener ml;
     private PriorityQueue<MuseMessage> queue;
     private boolean shutdown = false;
 

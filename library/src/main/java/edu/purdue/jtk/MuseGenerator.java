@@ -175,6 +175,8 @@ public class MuseGenerator extends MuseSource implements Runnable {
                     case RightBrain: setRightBrainDestinations(); break;
                     case MaxRight: setMaxRight(); break;
                     case Zero: setZeroDesinations(); break;
+                    case Loser: assert false; break;
+                    case Winner: assert false; break;
                 }
                 generateEvents(currentTime + i * MILLIS / 1000, MILLIS, GAP);
             }
