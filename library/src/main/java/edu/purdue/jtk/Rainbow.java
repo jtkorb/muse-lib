@@ -19,7 +19,8 @@ public class Rainbow {
     }
 
     public static void main(String[] args) throws IOException {
-        ArrayList<Integer> rainbow = readRainbow("data/CET-R2.csv");
+        // System.out.printf("Current working directory: %s\n", System.getProperty("user.dir"));
+        ArrayList<Integer> rainbow = readRainbow("library/data/CET-R2.csv");
         printDeclaration(rainbow);
     }
 
