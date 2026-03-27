@@ -44,6 +44,8 @@ abstract class MuseSource {
                 break;
             case "blink", "gyro", "acc", "eeg", "batt", "jaw_clench", "connected", "disconnected":
                 break;
+            case "ppg":
+                break;
             default:
                 System.out.printf("Unknown address: %s\n", address);
         }
