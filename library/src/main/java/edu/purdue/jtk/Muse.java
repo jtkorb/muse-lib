@@ -1,5 +1,7 @@
 package edu.purdue.jtk;
 
+import edu.purdue.jtk.ble.macos.MuseMacBluetoothController;
+
 import java.io.File;
 
 /**
@@ -9,6 +11,11 @@ import java.io.File;
  * @since 1.0.0
  */
 public class Muse {
+    @FunctionalInterface
+    public interface SourceSelectionListener {
+        void onHeadbandSelected(boolean selected);
+    }
+
     /**
      * Wave processing done by the Muse Direct app.
      * <ul>
@@ -23,11 +30,18 @@ public class Muse {
     MuseSource source;
     MuseControl mc;
     private boolean isPaused = false;
+    private SourceSelectionListener sourceSelectionListener;
+    private final boolean testingMode;
+
+    private final Object bleLifecycleLock = new Object();
+    private MuseMacBluetoothController bleController;
+    private Thread bleRunLoopThread;
 
     public Muse(Generate generate) {
         // NB: The generate argument is ignored and the mc radio button is not being set.  Deprecate this method?
         source = new MuseGenerator(generate, model, ms);
         mc = new MuseControl(this);
+        testingMode = false;
     }
 
     /**
@@ -36,6 +50,7 @@ public class Muse {
     public Muse() {
         source = null;
         mc = new MuseControl(this, false);
+        testingMode = false;
     }
 
     /**
@@ -44,6 +59,7 @@ public class Muse {
     public Muse(boolean testing) {
         source = null;
         mc = new MuseControl(this, testing);
+        testingMode = testing;
     }
 
     /**
@@ -56,6 +72,7 @@ public class Muse {
         // source = new MuseListener(port, model, ms);
         source = null;
         mc = new MuseControl(this);
+        testingMode = false;
         mc.waitForStartup();
     }
 
@@ -67,6 +84,7 @@ public class Muse {
     public Muse(String fileName) {
         source = new MuseFileReader(fileName, model, ms);
         mc = new MuseControl(this);
+        testingMode = false;
     }
 
     /**
@@ -77,6 +95,7 @@ public class Muse {
     public Muse(File file) {
         source = new MuseFileReader(file.getName(), model, ms);
         mc = new MuseControl(this);
+        testingMode = false;
     }
 
     public MuseControl getMuseControl() {
@@ -233,17 +252,44 @@ public class Muse {
     }
 
     public void clearSource() {
+        stopBleControllerIfRunning();
         if (source != null) {
             source.shutdown();
             model.reset();
             source = null;
         }
+        notifyHeadbandSelected(false);
+    }
+
+    /**
+     * Sets a BLE-backed source that receives raw notification bytes and updates
+     * the model directly. This is intended for direct Bluetooth integrations
+     * where OSC is not used.
+     *
+     * @return the created BLE source for wiring notification callbacks
+     */
+    public MuseBleSource setBleSource() {
+        assert model != null;
+        assert ms != null;
+
+        if (source != null) {
+            source.shutdown();
+            model.reset();
+        }
+
+        model.reset();
+        MuseBleSource bleSource = new MuseBleSource(model, ms);
+        source = bleSource;
+        startBleControllerIfNeeded();
+        notifyHeadbandSelected(true);
+        return bleSource;
     }
 
     public void setHeadbandSource() {
         assert model != null;
         assert ms != null;
 
+        stopBleControllerIfRunning();
         if (source != null) {
             source.shutdown();
             model.reset();
@@ -251,12 +297,14 @@ public class Muse {
         // NB: Reset model and ms?
         model.reset();  // NB: Partial fix for the race condition below.
         source = new MuseListener(8000, model, ms);
+        notifyHeadbandSelected(true);
     }
 
     public void setGeneratorSource() {
         assert model != null;
         assert ms != null;
 
+        stopBleControllerIfRunning();
         if (source != null) {
             source.shutdown();
             model.reset();  // NB: Race condition--the generator drops a few into the grid after it is reset.
@@ -264,12 +312,14 @@ public class Muse {
 
         // NB: Reset model and ms?
         source = new MuseGenerator(Generate.Unfocused, model, ms);
+        notifyHeadbandSelected(false);
     }
 
     public void setFileSource() {
         assert model != null;
         assert ms != null;
 
+        stopBleControllerIfRunning();
         if (source != null) {
             source.shutdown();
             model.reset();
@@ -277,6 +327,75 @@ public class Muse {
 
         // NB: Reset model and ms?
         System.out.println("Setting file source not implemented yet.");
+        notifyHeadbandSelected(false);
+    }
+
+    public void setSourceSelectionListener(SourceSelectionListener sourceSelectionListener) {
+        this.sourceSelectionListener = sourceSelectionListener;
+    }
+
+    private void notifyHeadbandSelected(boolean selected) {
+        if (sourceSelectionListener != null) {
+            sourceSelectionListener.onHeadbandSelected(selected);
+        }
+    }
+
+    public void onBleNotification(String characteristicUuid, byte[] data) {
+        if (source instanceof MuseBleSource) {
+            ((MuseBleSource) source).onNotification(characteristicUuid, data);
+        }
+    }
+
+    private void startBleControllerIfNeeded() {
+        if (testingMode) {
+            return;
+        }
+
+        synchronized (bleLifecycleLock) {
+            if (bleRunLoopThread != null && bleRunLoopThread.isAlive()) {
+                if (bleController != null) {
+                    bleController.setHeadbandPressed(true);
+                }
+                return;
+            }
+
+            bleController = new MuseMacBluetoothController(this);
+            MuseMacBluetoothController controller = bleController;
+            controller.setHeadbandPressed(true);
+            bleRunLoopThread = new Thread(() -> {
+                try {
+                    controller.start();
+                    controller.runUntilStopped();
+                } catch (RuntimeException runtimeException) {
+                    System.err.println("[Muse] BLE controller stopped with error: " + runtimeException.getMessage());
+                }
+            }, "muse-ble-runloop");
+            bleRunLoopThread.setDaemon(true);
+            bleRunLoopThread.start();
+        }
+    }
+
+    private void stopBleControllerIfRunning() {
+        if (testingMode) {
+            return;
+        }
+
+        synchronized (bleLifecycleLock) {
+            Thread runLoopThread = bleRunLoopThread;
+            if (bleController != null) {
+                bleController.setHeadbandPressed(false);
+                bleController.stop();
+            }
+            if (runLoopThread != null && runLoopThread.isAlive()) {
+                try {
+                    runLoopThread.join(300L);
+                } catch (InterruptedException interruptedException) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+            bleController = null;
+            bleRunLoopThread = null;
+        }
     }
 
     public void setPaused(boolean isPaused) {

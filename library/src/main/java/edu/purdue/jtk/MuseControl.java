@@ -59,8 +59,6 @@ public class MuseControl extends PApplet {
         super();
         this.muse = muse;
         this.testing = testing;
-        if (!testing)
-            PApplet.runSketch(new String[] { this.getClass().getSimpleName() }, this);
 
         enableWaves = new boolean[Wave.values().length];
         for (Wave wave : Wave.values())
@@ -72,6 +70,10 @@ public class MuseControl extends PApplet {
 
         showFocus = true;
         showActivity = true;
+
+        if (!testing)
+            PApplet.runSketch(new String[] { this.getClass().getSimpleName() }, this);
+
         muse.model.setDoSmoothing(true);
     }
 
@@ -435,8 +437,7 @@ public class MuseControl extends PApplet {
                     muse.clearSource();
                     break;
                 case 0:
-                    muse.setHeadbandSource();
-                    ipAddress.setValue(((MuseListener) (muse.source)).getIPAddress());
+                    muse.setBleSource();
                     break;
                 case 1:
                     muse.setGeneratorSource();

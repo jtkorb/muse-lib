@@ -11,6 +11,8 @@ dependencies {
     api 'org.processing:processing-core:4.3.2'
     api 'oscP5:oscP5:0.9.9'
     implementation 'controlP5:controlP5:2.2.5'  // 2.2.7 available?
+    implementation 'net.java.dev.jna:jna:5.14.0'
+    implementation 'net.java.dev.jna:jna-platform:5.14.0'
 }
 
 base {
