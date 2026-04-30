@@ -17,13 +17,18 @@ public class MuseBleSource extends MuseSource {
     private static final double SAMPLE_RATE_HZ = 256.0;
     private static final int WINDOW_SIZE = 512;
     private static final int HOP_SIZE = 96;
+    private static final int EEG_SAMPLES_PER_PACKET = 12;
+    private static final long LOSS_LOG_INTERVAL_MS = 10_000L;
 
     private final Map<Sensor, MuseBandPowerEstimator> estimators = new EnumMap<>(Sensor.class);
+    private final Map<Sensor, SequenceStats> sequenceStats = new EnumMap<>(Sensor.class);
+    private long nextLossLogAtMs = System.currentTimeMillis() + LOSS_LOG_INTERVAL_MS;
 
     MuseBleSource(Model model, MuseStatistics ms) {
         super(model, ms);
         for (Sensor sensor : Sensor.values()) {
             estimators.put(sensor, new MuseBandPowerEstimator(SAMPLE_RATE_HZ, WINDOW_SIZE, HOP_SIZE));
+            sequenceStats.put(sensor, new SequenceStats());
         }
     }
 
@@ -73,6 +78,8 @@ public class MuseBleSource extends MuseSource {
         if (packet == null) {
             return;
         }
+        sequenceStats.get(sensor).record(packet.sequence);
+        maybeLogLossStats();
 
         MuseBandPowerEstimator.BandPower bands = estimators.get(sensor).addSamples(packet.samplesUv);
         if (bands == null) {
@@ -143,5 +150,60 @@ public class MuseBleSource extends MuseSource {
             bytes[i] = ((Number) args[i]).byteValue();
         }
         return bytes;
+    }
+
+    private void maybeLogLossStats() {
+        long now = System.currentTimeMillis();
+        if (now < nextLossLogAtMs) {
+            return;
+        }
+        nextLossLogAtMs = now + LOSS_LOG_INTERVAL_MS;
+
+        StringBuilder sb = new StringBuilder("[BLE] EEG loss summary:");
+        for (Sensor sensor : Sensor.values()) {
+            SequenceStats stats = sequenceStats.get(sensor);
+            sb.append(String.format(
+                    Locale.ROOT,
+                    " %s packets=%d missing=%d samples=%d loss=%.3f%%;",
+                    sensor.getName(),
+                    stats.totalPackets,
+                    stats.missingPackets,
+                    stats.totalSamples(),
+                    stats.sampleLossPercent()
+            ));
+        }
+        System.out.println(sb);
+    }
+
+    private static final class SequenceStats {
+        private Integer lastSeq;
+        private long totalPackets;
+        private long missingPackets;
+
+        void record(int sequence) {
+            totalPackets++;
+            if (lastSeq != null) {
+                int expected = (lastSeq + 1) & 0xFFFF;
+                int delta = (sequence - expected) & 0xFFFF;
+                if (delta > 0) {
+                    missingPackets += delta;
+                }
+            }
+            lastSeq = sequence & 0xFFFF;
+        }
+
+        long totalSamples() {
+            return totalPackets * EEG_SAMPLES_PER_PACKET;
+        }
+
+        double sampleLossPercent() {
+            long delivered = totalSamples();
+            long missing = missingPackets * EEG_SAMPLES_PER_PACKET;
+            long expected = delivered + missing;
+            if (expected == 0) {
+                return 0.0;
+            }
+            return 100.0 * missing / (double) expected;
+        }
     }
 }
