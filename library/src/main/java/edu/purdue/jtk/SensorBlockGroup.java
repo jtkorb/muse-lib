@@ -24,7 +24,7 @@ class SensorBlockGroup extends Group {
         this.muse = muse;
         this.sensor = sensor;
 
-        addCanvas(new SensorBlockCanvas(this, BAR_HEIGHT));
+        addCanvas(new SensorBlockCanvas(this));
 
         for (int i = 0; i < Wave.values().length; i++) {
             Wave wave;
@@ -49,11 +49,9 @@ class SensorBlockGroup extends Group {
 
 class SensorBlockCanvas extends Canvas {
     private SensorBlockGroup sbg;
-    private int blockHeight;
 
-    SensorBlockCanvas(SensorBlockGroup sbg, int blockHeight) {
+    SensorBlockCanvas(SensorBlockGroup sbg) {
         this.sbg = sbg;
-        this.blockHeight = blockHeight;
     }
 
     @Override
