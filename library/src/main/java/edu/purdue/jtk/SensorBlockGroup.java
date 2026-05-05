@@ -60,10 +60,8 @@ class SensorBlockCanvas extends Canvas {
     public void draw(PGraphics p) {
         float horseshoe = sbg.muse.model.getHorseshoe(sbg.sensor);
         int isGood = sbg.muse.model.isGood(sbg.sensor);
-        float textHeight = p.textAscent() + p.textDescent();
         float x = 0;
-        float y = blockHeight / 2.0f - 3.0f * textHeight;
-        float eps = 0.2f * textHeight;
+        float y = 10;
 
         p.strokeWeight(1f);
         p.stroke(0);
@@ -77,6 +75,6 @@ class SensorBlockCanvas extends Canvas {
         }
 
         p.fill(sbg.muse.model.getTouchingForehead() ? comboColor : 0);
-        p.rect(x, y, 40, textHeight - eps, 4);
+        p.rect(x, y, 40, 10, 4);
     }
 }

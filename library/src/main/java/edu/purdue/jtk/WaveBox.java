@@ -39,8 +39,10 @@ class WaveBoxView implements ControllerView<WaveBox> {
         int MARGIN = 10;
         int LINE_SEP = 3;
         float value = waveBox.muse.model.getTouchingForehead() ? waveBox.muse.getGrid(wave, sensor) : 0;
-        float textHeight = p.textAscent() + p.textDescent();
         float width = waveBox.getWidth();
+
+        p.textFont(pf);
+        float textHeight = p.textSize;
         float height = waveBox.getHeight() - 2 * textHeight - 5;
         float barTop  = height * (1 - value);
 
