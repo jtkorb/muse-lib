@@ -29,7 +29,7 @@ class Model {
     private boolean touchingForehead;
 
     private boolean doSmoothing = true;
-    private boolean allowUpscaling = true;
+    private boolean allowUpscaling = false;
     /*
      * END MODEL
      */
