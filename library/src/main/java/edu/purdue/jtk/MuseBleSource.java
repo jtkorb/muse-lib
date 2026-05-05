@@ -19,6 +19,7 @@ public class MuseBleSource extends MuseSource {
     private static final int HOP_SIZE = 96;
 
     private final Map<Sensor, MuseBandPowerEstimator> estimators = new EnumMap<>(Sensor.class);
+    private final MuseElectrodeQualityEstimator electrodeQuality = new MuseElectrodeQualityEstimator();
 
     MuseBleSource(Model model, MuseStatistics ms) {
         super(model, ms);
@@ -74,29 +75,51 @@ public class MuseBleSource extends MuseSource {
             return;
         }
 
-        MuseBandPowerEstimator.BandPower bands = estimators.get(sensor).addSamples(packet.samplesUv);
+        processClassicElectrode(sensor, packet.samplesUv);
+    }
+
+    private void processClassicElectrode(Sensor sensor, double[] samplesUv) {
+        ingestElectrodeOnly(sensor, samplesUv);
+        electrodeQuality.applyToModel(model);
+    }
+
+    private void ingestElectrodeOnly(Sensor sensor, double[] samplesUv) {
+        electrodeQuality.ingest(sensor.value, samplesUv);
+        MuseBandPowerEstimator.BandPower bands = estimators.get(sensor).addSamples(samplesUv);
+        applyBandGrid(sensor, bands);
+    }
+
+    private void applyBandGrid(Sensor sensor, MuseBandPowerEstimator.BandPower bands) {
         if (bands == null) {
             return;
         }
-
         long now = System.currentTimeMillis();
         model.setGrid(Wave.DELTA.value, sensor.value, (float) bands.relDelta(), now);
         model.setGrid(Wave.THETA.value, sensor.value, (float) bands.relTheta(), now);
         model.setGrid(Wave.ALPHA.value, sensor.value, (float) bands.relAlpha(), now);
         model.setGrid(Wave.BETA.value, sensor.value, (float) bands.relBeta(), now);
         model.setGrid(Wave.GAMMA.value, sensor.value, (float) bands.relGamma(), now);
-        model.setTouchingForehead(true);
     }
 
     private static Sensor sensorFromCharacteristic(String characteristicUuid) {
-        String id = characteristicUuid.toUpperCase(Locale.ROOT);
-        return switch (id) {
-            case MuseBleConstants.CHAR_EEG_TP9 -> Sensor.LEFT_EAR;
-            case MuseBleConstants.CHAR_EEG_AF7 -> Sensor.LEFT_FH;
-            case MuseBleConstants.CHAR_EEG_AF8 -> Sensor.RIGHT_FH;
-            case MuseBleConstants.CHAR_EEG_TP10 -> Sensor.RIGHT_EAR;
-            default -> null;
-        };
+        String id = normalizeBleUuid(characteristicUuid);
+        if (id.equals(normalizeBleUuid(MuseBleConstants.CHAR_EEG_TP9))) {
+            return Sensor.LEFT_EAR;
+        }
+        if (id.equals(normalizeBleUuid(MuseBleConstants.CHAR_EEG_AF7))) {
+            return Sensor.LEFT_FH;
+        }
+        if (id.equals(normalizeBleUuid(MuseBleConstants.CHAR_EEG_AF8))) {
+            return Sensor.RIGHT_FH;
+        }
+        if (id.equals(normalizeBleUuid(MuseBleConstants.CHAR_EEG_TP10))) {
+            return Sensor.RIGHT_EAR;
+        }
+        return null;
+    }
+
+    private static String normalizeBleUuid(String dashedUuid) {
+        return dashedUuid.replace("-", "").toUpperCase(Locale.ROOT);
     }
 
     private static byte[] extractPayload(Object[] args) {
