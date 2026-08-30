@@ -30,6 +30,8 @@ public class MuseControl extends PApplet {
     private int scaleValue;
 
     private RadioButton source;
+    private RadioButton transport;
+    private boolean bleMode = false;
     private Muse muse;
 
     private boolean testing = false;
@@ -236,7 +238,7 @@ public class MuseControl extends PApplet {
     private void addSource(ControlP5 p5, int x, int y) {
         cp5.addLabel("Source:", x, y + LABEL_FUDGE).setFont(pf).setColor(FONT_COLOR);
         ipAddress = cp5.addLabel("ipAddress")
-                .setPosition(x + 400, y + LABEL_FUDGE)
+                .setPosition(x + 620, y + LABEL_FUDGE)
                 .setFont(pf)
                 .setColor(FONT_COLOR)
                 .setValue("");
@@ -248,13 +250,31 @@ public class MuseControl extends PApplet {
                 .setColorActive(color(0, 255, 0))
                 .setColorLabels(FONT_COLOR)
                 .setItemsPerRow(3)
-                .setSpacingColumn(105)
+                .setSpacingColumn(95)
                 .setNoneSelectedAllowed(true)
                 .addItem("Headband", 0)
                 .addItem("Generator", 1)
                 .addItem("File", 2);
 
-        for (Toggle t : source.getItems()) {
+        styleRadioCaptions(source);
+
+        transport = cp5.addRadioButton("transport")
+                .setPosition(x + 400, y)
+                .setSize(15, 15)
+                .setColorForeground(color(255, 255, 0))
+                .setColorActive(color(0, 255, 0))
+                .setColorLabels(FONT_COLOR)
+                .setItemsPerRow(2)
+                .setSpacingColumn(90)
+                .setNoneSelectedAllowed(false)
+                .addItem("Internet", 0)
+                .addItem("BLE", 1);
+        transport.activate(0);
+        styleRadioCaptions(transport);
+    }
+
+    private void styleRadioCaptions(RadioButton radio) {
+        for (Toggle t : radio.getItems()) {
             Label cl = t.getCaptionLabel();
             cl.setFont(pf).setColor(FONT_COLOR).toUpperCase(false);
 
@@ -431,22 +451,43 @@ public class MuseControl extends PApplet {
         } else if (event.isFrom(scaleSlider)) {
             scaleValue = (int) scaleSlider.getValue();
         } else if (event.isFrom(source)) {
-            ipAddress.setValue("");
             switch ((int) source.getValue()) {
                 case -1:
                     muse.clearSource();
+                    ipAddress.setValue("");
                     break;
                 case 0:
-                    muse.setBleSource();
+                    applyHeadbandSource();
                     break;
                 case 1:
                     muse.setGeneratorSource();
+                    ipAddress.setValue("");
                     break;
                 case 2:
                     muse.setFileSource();
+                    ipAddress.setValue("");
                     break;
                 default:
                     assert false;
+            }
+        } else if (event.isFrom(transport)) {
+            bleMode = (int) transport.getValue() == 1;
+            if ((int) source.getValue() == 0) {
+                applyHeadbandSource();
+            }
+        }
+    }
+
+    private void applyHeadbandSource() {
+        if (bleMode) {
+            muse.setBleSource();
+            if (ipAddress != null) {
+                ipAddress.setValue("");
+            }
+        } else {
+            muse.setHeadbandSource();
+            if (ipAddress != null && muse.source instanceof MuseListener) {
+                ipAddress.setValue(((MuseListener) muse.source).getIPAddress());
             }
         }
     }
@@ -533,6 +574,21 @@ public class MuseControl extends PApplet {
     public void setDoSmoothing(boolean value) { toggleSmoothing.setValue(value); }
 
     public void setUpscaling(boolean value) { toggleUpscaling.setValue(value); }
+
+    public boolean getBleMode() {
+        return bleMode;
+    }
+
+    public void setBleMode(boolean bleMode) {
+        this.bleMode = bleMode;
+        if (!testing && transport != null) {
+            if (bleMode) {
+                transport.activate(1);
+            } else {
+                transport.activate(0);
+            }
+        }
+    }
 
     /*
      * Handle startup synchronization.

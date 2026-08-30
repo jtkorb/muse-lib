@@ -55,8 +55,9 @@ $ ./gradlew demos:bubbles:run
   * **Mind Monitor.**  Developed by a third party (James Clutterbuck).  Runs on iOS and Android.  Cost is $15 (one time charge).
 * Turn on and fit the Muse headband.
 * Launch one of the demo apps (bubbles or control_layout).
-* On the control panel, select the "Headband" check box.  An IP address will appear.
+* On the control panel, leave the connection switch on **Internet** (the default) and select the "Headband" check box.  An IP address will appear.
 * Configure the smartphone app with the given IP address and port 8000.  Note that the smartphone must be able to connect to this IP address, e.g., the IP address is public or the smartphone is connected to the same private network.
+* To skip the phone app on macOS, switch the connection to **BLE** and select Headband.  The library then talks to the headband over Bluetooth.
 * Ensure the smartphone app is sending individual sensor values, not averages.  (In Mind Monitor, for example, on the Settings cog tab, set OSC Stream Brainwaves to "All values".)
 * Packets should start to flow and the display react.  (The Mind Monitor app has a streaming control icon (concentric 3/4 circles) at the bottom to toggle whether data is streamed to the headphone or not.  Ensure this icon has a backslash through it.)
 
@@ -64,7 +65,7 @@ $ ./gradlew demos:bubbles:run
 
 The Control Panel provides monitoring and some control over the data arriving from the Muse headband.  See this [annotated image](https://imgur.com/a/OZXjMig).
 
-* **Source selection:** Selects the source for Muse data: headband, generator, or file.  Loading data from a file is not currently implemented from the Control Panel.
+* **Source selection:** Selects the source for Muse data: headband, generator, or file.  Loading data from a file is not currently implemented from the Control Panel.  Headband connection defaults to Internet (OSC from a smartphone app); switch to BLE for a direct Bluetooth connection.
 * **Right forehead / Right ear:** The four regions of five wave blocks correspond to the four brainwave sensors on the Muse headband.
 * **Contact quality:** Shows the quality of physical connection with the headband.  Green is good, yellow is poor, red is bad, and black is none.
 * **Wave selection:** Choose which waves are to be displayed by the application.  (Note: The Control Panel displays all waves, regardless of selection).

@@ -1,5 +1,6 @@
 package edu.purdue.jtk;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,12 +17,29 @@ class MuseSourceSelectionListenerTest {
         muse = new Muse(true);
     }
 
+    @AfterEach
+    void tearDown() {
+        muse.clearSource();
+    }
+
     @Test
     void headbandOffHeadbandSequenceNotifiesExpectedStates() {
         List<Boolean> selections = new ArrayList<>();
         muse.setSourceSelectionListener(selections::add);
 
         // Mirrors UI sequence: click Headband, unclick Headband, click Headband again.
+        muse.setHeadbandSource();
+        muse.clearSource();
+        muse.setHeadbandSource();
+
+        assertEquals(List.of(true, false, true), selections);
+    }
+
+    @Test
+    void bleHeadbandSequenceNotifiesExpectedStates() {
+        List<Boolean> selections = new ArrayList<>();
+        muse.setSourceSelectionListener(selections::add);
+
         muse.setBleSource();
         muse.clearSource();
         muse.setBleSource();

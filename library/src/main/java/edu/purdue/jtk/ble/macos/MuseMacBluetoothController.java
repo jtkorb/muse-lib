@@ -44,6 +44,18 @@ public final class MuseMacBluetoothController {
         return headbandPressed;
     }
 
+    /**
+     * When true, prints per-packet [DATA]/[BAND] dumps from the BLE layer.
+     * Off by default; also enabled with {@code -Dmuse.ble.verbose=true}.
+     */
+    public void setVerboseDataLogging(boolean enabled) {
+        manager.setVerboseDataLogging(enabled);
+    }
+
+    public boolean isVerboseDataLogging() {
+        return manager.isVerboseDataLogging();
+    }
+
     public void runUntilStopped() {
         ObjC.cfRunLoopRunUntilStopped();
     }

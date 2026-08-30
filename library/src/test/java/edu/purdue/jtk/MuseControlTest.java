@@ -21,5 +21,6 @@ class MuseControlTest {
         assertEquals(100, mc.getScaleValue());
         assertTrue(mc.getShowActivity());
         assertTrue(mc.getShowFocus());
+        assertFalse(mc.getBleMode());
     }
 }

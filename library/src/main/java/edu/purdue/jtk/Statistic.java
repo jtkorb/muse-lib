@@ -23,7 +23,7 @@ public class Statistic {
     }
 
     public void reset() {
-        max = Double.MIN_VALUE;
+        max = Double.NEGATIVE_INFINITY;
         min = Double.MAX_VALUE;
         mean = meanPrevious = 0.0;
         sigma2n = sigma2nPrevious = 0.0;

@@ -38,6 +38,7 @@ public class CoreBluetoothManager {
     private final List<Callback> liveCallbacks = new ArrayList<>();
     private final Map<String, MuseBandPowerEstimator> eegBandEstimators = new HashMap<>();
     private final MuseNotificationSink notificationSink;
+    private volatile boolean verboseDataLogging = Boolean.getBoolean("muse.ble.verbose");
 
     public CoreBluetoothManager() {
         this(null);
@@ -46,6 +47,18 @@ public class CoreBluetoothManager {
     public CoreBluetoothManager(MuseNotificationSink notificationSink) {
         this.notificationSink = notificationSink;
         INSTANCE = this;
+    }
+
+    /**
+     * When true, prints per-packet [DATA]/[BAND] dumps. Off by default (also
+     * enabled with {@code -Dmuse.ble.verbose=true}).
+     */
+    public void setVerboseDataLogging(boolean enabled) {
+        verboseDataLogging = enabled;
+    }
+
+    public boolean isVerboseDataLogging() {
+        return verboseDataLogging;
     }
 
     /**
@@ -374,6 +387,10 @@ public class CoreBluetoothManager {
 
         if (notificationSink != null) {
             notificationSink.onNotification(id, data);
+        }
+
+        if (!verboseDataLogging) {
+            return;
         }
 
         switch (id.toUpperCase(Locale.ROOT)) {
