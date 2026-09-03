@@ -101,11 +101,20 @@ public class MuseBleSource extends MuseSource {
             return;
         }
         long now = System.currentTimeMillis();
-        model.setGrid(Wave.DELTA.value, sensor.value, (float) bands.relDelta(), now);
-        model.setGrid(Wave.THETA.value, sensor.value, (float) bands.relTheta(), now);
-        model.setGrid(Wave.ALPHA.value, sensor.value, (float) bands.relAlpha(), now);
-        model.setGrid(Wave.BETA.value, sensor.value, (float) bands.relBeta(), now);
-        model.setGrid(Wave.GAMMA.value, sensor.value, (float) bands.relGamma(), now);
+        if (model.getUseBleAbsolute()) {
+            // Use log-transformed absolute band powers, matching the Internet/OSC path scale.
+            model.setGrid(Wave.DELTA.value, sensor.value, (float) Math.log10(Math.max(bands.delta(), 1e-10)), now);
+            model.setGrid(Wave.THETA.value, sensor.value, (float) Math.log10(Math.max(bands.theta(), 1e-10)), now);
+            model.setGrid(Wave.ALPHA.value, sensor.value, (float) Math.log10(Math.max(bands.alpha(), 1e-10)), now);
+            model.setGrid(Wave.BETA.value, sensor.value, (float) Math.log10(Math.max(bands.beta(), 1e-10)), now);
+            model.setGrid(Wave.GAMMA.value, sensor.value, (float) Math.log10(Math.max(bands.gamma(), 1e-10)), now);
+        } else {
+            model.setGrid(Wave.DELTA.value, sensor.value, (float) bands.relDelta(), now);
+            model.setGrid(Wave.THETA.value, sensor.value, (float) bands.relTheta(), now);
+            model.setGrid(Wave.ALPHA.value, sensor.value, (float) bands.relAlpha(), now);
+            model.setGrid(Wave.BETA.value, sensor.value, (float) bands.relBeta(), now);
+            model.setGrid(Wave.GAMMA.value, sensor.value, (float) bands.relGamma(), now);
+        }
     }
 
     private static Sensor sensorFromCharacteristic(String characteristicUuid) {

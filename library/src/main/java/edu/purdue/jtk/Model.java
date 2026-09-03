@@ -30,6 +30,7 @@ class Model {
 
     private boolean doSmoothing = true;
     private boolean allowUpscaling = false;
+    private boolean useBleAbsolute = false;
     /*
      * END MODEL
      */
@@ -86,6 +87,8 @@ class Model {
     }
 
     void setUpscaling(boolean allowUpscaling) { this.allowUpscaling = allowUpscaling; }
+
+    void setUseBleAbsolute(boolean useBleAbsolute) { this.useBleAbsolute = useBleAbsolute; }
     //@formatter:on
 
     /*
@@ -205,5 +208,9 @@ class Model {
 
     boolean getUpscaling() {
         return allowUpscaling;
+    }
+
+    boolean getUseBleAbsolute() {
+        return useBleAbsolute;
     }
 }

@@ -23,7 +23,7 @@ public class MuseControl extends PApplet {
     private CheckBox cbWaveChooser, cbSensorChooser;
     private boolean[] enableWaves, enableSensors;
 
-    private Toggle toggleFocus, toggleActivity, toggleSmoothing, toggleUpscaling;
+    private Toggle toggleFocus, toggleActivity, toggleSmoothing, toggleUpscaling, toggleAbsolute;
     private boolean showFocus, showActivity;
 
     private Slider scaleSlider;
@@ -117,6 +117,7 @@ public class MuseControl extends PApplet {
         addToggleActivity(cp5, X_TOGGLES, TOP_MARGIN + Y_TOGGLES + 2 * SEPARATION);
         addToggleSmoothing(cp5, X_TOGGLES, TOP_MARGIN + Y_TOGGLES + 3 * SEPARATION);
         addToggleUpscaling(cp5, X_TOGGLES, TOP_MARGIN + Y_TOGGLES + 4 * SEPARATION);
+        addToggleAbsolute(cp5, X_TOGGLES, TOP_MARGIN + Y_TOGGLES + 5 * SEPARATION);
 
         int BOTTOM_BARS = 590;
 
@@ -298,6 +299,17 @@ public class MuseControl extends PApplet {
                 .setState(muse.model.getUpscaling());
     }
 
+    private void addToggleAbsolute(ControlP5 cp5, int x, int y) {
+        cp5.addLabel("Absolute", x + 18, y + LABEL_FUDGE).setFont(pf).setColor(FONT_COLOR);
+        toggleAbsolute = cp5.addToggle("toggleAbsolute")
+                .setPosition(x, y)
+                .setColorForeground(color(255, 255, 0))
+                .setColorActive(color(0, 255, 0))
+                .setCaptionLabel("")
+                .setSize(15, 15)
+                .setState(muse.model.getUseBleAbsolute());
+    }
+
     private void addToggleActivity(ControlP5 cp5, int x, int y) {
         cp5.addLabel("Activity", x + 18, y + LABEL_FUDGE).setFont(pf).setColor(FONT_COLOR);
         toggleActivity = cp5.addToggle("toggleActivity")
@@ -446,6 +458,9 @@ public class MuseControl extends PApplet {
             showActivity = toggleActivity.getState();
         } else if (event.isFrom(toggleUpscaling)) {
             muse.model.setUpscaling(toggleUpscaling.getState());
+        } else if (event.isFrom(toggleAbsolute)) {
+            muse.model.setUseBleAbsolute(toggleAbsolute.getState());
+            muse.model.reset();
         } else if (event.isFrom(toggleSmoothing)) {
             muse.model.setDoSmoothing(toggleSmoothing.getState());
         } else if (event.isFrom(scaleSlider)) {

@@ -409,4 +409,12 @@ public class Muse {
     public int isGood(Sensor sensor) {
         return model.isGood(sensor);
     }
+
+    public void setUseBleAbsolute(boolean useBleAbsolute) {
+        model.setUseBleAbsolute(useBleAbsolute);
+    }
+
+    public boolean getUseBleAbsolute() {
+        return model.getUseBleAbsolute();
+    }
 }
