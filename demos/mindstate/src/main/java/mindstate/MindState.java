@@ -16,20 +16,28 @@ public class MindState extends PApplet {
 
     public void settings() {
         int display = 1;
+        int screenCount = 1;
         try {
-            int count = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices().length;
-            if (count >= 2) {
+            screenCount = java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices().length;
+            if (screenCount >= 2) {
                 display = 2;
             }
         } catch (Throwable ignored) {
             display = 1;
         }
-        fullScreen(display);
-        System.out.printf("MindState on screen %d (%d x %d)\n", display, displayWidth, displayHeight);
+        if (screenCount >= 2) {
+            fullScreen(display);
+        } else {
+            // On one monitor the control panel already uses the whole screen; keep this
+            // sketch windowed so the thinking/relaxing marker stays visible.
+            size(1600, 900);
+        }
+        System.out.printf("MindState on screen %d of %d (%d x %d)\n", display, screenCount, displayWidth, displayHeight);
     }
 
     public void setup() {
         frameRate(30);
+        surface.setTitle("MindState — Thinking vs Relaxing");
         muse = new Muse();
         mc = muse.getMuseControl();
         textAlign(CENTER, CENTER);

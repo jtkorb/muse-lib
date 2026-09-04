@@ -83,7 +83,7 @@ The Control Panel provides monitoring and some control over the data arriving fr
 * **Thinking** (marker toward the warm/left side): beta/gamma high relative to alpha.
   Typical during eyes-open mental work.
 
-The control panel still opens on display 1. The mind-state sketch uses display 2 when present.
+The control panel still opens on display 1. The mind-state sketch uses display 2 when a second monitor is present; on a single display it opens as a large window so the marker is not hidden behind the control panel.
 
 To rehearse without a headset, select **Generator** and press **R** (Relaxing) or **T** (Thinking).
 Those generator modes use different band shapes, unlike the older Focused/Calm keys which set every
