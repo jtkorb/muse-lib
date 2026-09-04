@@ -230,8 +230,48 @@ public class Muse {
         return (c == 0) ? 0 : value / c;
     }
 
+    /**
+     * Returns a thinking-vs-relaxing index in [0, 1].
+     * Higher values mean more posterior alpha relative to beta and gamma (relaxing);
+     * lower values mean more beta/gamma (thinking). Honors the control panel sensor
+     * selection and prefers the ear electrodes when their contact is decent.
+     */
+    public float computeRelaxation() {
+        boolean[] showSensor = new boolean[Sensor.values().length];
+        for (Sensor sensor : Sensor.values()) {
+            showSensor[sensor.value] = mc.getShowSensor(sensor);
+        }
+        return model.computeRelaxation(showSensor);
+    }
+
+    /**
+     * True when the forehead is touching and at least one selected sensor has usable
+     * contact and band data. When false, {@link #computeRelaxation()} holds the last good value.
+     */
+    public boolean isRelaxationReliable() {
+        return model.isRelaxationReliable();
+    }
+
+    /**
+     * Mean relative alpha (share of the five bands) from the last reliable relaxation sample.
+     */
+    public float getRelativeAlpha() {
+        return model.getRelativeAlpha();
+    }
+
+    /**
+     * Mean relative beta (share of the five bands) from the last reliable relaxation sample.
+     */
+    public float getRelativeBeta() {
+        return model.getRelativeBeta();
+    }
+
     public float getGrid(Wave wave, Sensor sensor) {
         return model.getGrid(wave, sensor);
+    }
+
+    public float getUnscaledGrid(Wave wave, Sensor sensor) {
+        return model.getUnscaledGrid(wave, sensor);
     }
 
     // public float[] getWaveAtSensors(Wave wave) {

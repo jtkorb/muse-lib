@@ -46,6 +46,7 @@ From the downloaded library zip files, locate the .jar files and install in the 
 ```
 $ ./gradlew build
 $ ./gradlew demos:bubbles:run
+$ ./gradlew demos:mindstate:run
 ```
 
 ## Working with the Muse Headband
@@ -54,7 +55,7 @@ $ ./gradlew demos:bubbles:run
   * **Muse Direct.**  Developed by InteraXon for the Muse.  Official, but iOS only.  Costs $24/year.  
   * **Mind Monitor.**  Developed by a third party (James Clutterbuck).  Runs on iOS and Android.  Cost is $15 (one time charge).
 * Turn on and fit the Muse headband.
-* Launch one of the demo apps (bubbles or control_layout).
+* Launch one of the demo apps (bubbles, mindstate, or control_layout).
 * On the control panel, leave the connection switch on **Internet** (the default) and select the "Headband" check box.  An IP address will appear.
 * Configure the smartphone app with the given IP address and port 8000.  Note that the smartphone must be able to connect to this IP address, e.g., the IP address is public or the smartphone is connected to the same private network.
 * To skip the phone app on macOS, switch the connection to **BLE** and select Headband.  The library then talks to the headband over Bluetooth.
@@ -71,3 +72,35 @@ The Control Panel provides monitoring and some control over the data arriving fr
 * **Wave selection:** Choose which waves are to be displayed by the application.  (Note: The Control Panel displays all waves, regardless of selection).
 * **Sensor selection:** Choose which of the four sensors are to be displayed by the application. (Note: The Control Panel displays all waves, regardless of selection).
 * **Feature selection:** Choose optional processing to be performed by the library on the waves.
+
+## Mind-state demo
+
+`demos:mindstate` is a fullscreen thinking-vs-relaxing display. It does **not** detect emotions
+(happy/sad). It maps posterior **alpha** against **beta/gamma**:
+
+* **Relaxing** (marker toward the cool/right side): alpha high relative to beta and gamma.
+  Typical when you close your eyes and sit still.
+* **Thinking** (marker toward the warm/left side): beta/gamma high relative to alpha.
+  Typical during eyes-open mental work.
+
+The control panel still opens on display 1. The mind-state sketch uses display 2 when a second monitor is present; on a single display it opens as a large window so the marker is not hidden behind the control panel.
+
+To rehearse without a headset, select **Generator** and press **R** (Relaxing) or **T** (Thinking).
+Those generator modes use different band shapes, unlike the older Focused/Calm keys which set every
+band uniformly.
+
+### Is the headset working?
+
+This is a quick check that the headband and this library are reading real EEG, not just muscle or noise:
+
+1. Fit the Muse so the control panel contact indicators are green, especially the ears (TP9/TP10).
+2. Sit still for a few seconds with eyes open so the marker can settle.
+3. Close your eyes and breathe slowly for about 20 seconds. Posterior alpha usually rises; the
+   marker should drift toward **Relaxing**. Changes take a couple of seconds because band power is
+   estimated on a ~2 s window.
+4. Open your eyes and subtract 7 from 100, then 93, 86, and so on. Alpha usually drops and
+   beta/gamma rise; the marker should drift toward **Thinking**.
+
+If the contact banner stays up, or the marker only jumps when you clench your jaw or blink, the
+signal is not usable yet. Jaw clench and blinks are muscle artifact, not mind control.
+

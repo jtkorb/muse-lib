@@ -210,6 +210,10 @@ public class MuseControl extends PApplet {
             muse.setGenerate(Generate.Focused);
         else if (key == 'c')
             muse.setGenerate(Generate.Calm);
+        else if (key == 't')
+            muse.setGenerate(Generate.Thinking);
+        else if (key == 'r')
+            muse.setGenerate(Generate.Relaxing);
         else if (key == CODED && keyCode == UP)
             muse.setGenerate(Generate.FrontBrain);
         else if (key == CODED && keyCode == DOWN)

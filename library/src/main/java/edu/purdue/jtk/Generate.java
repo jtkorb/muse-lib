@@ -17,6 +17,10 @@ public enum Generate {
     RightBrain,
     MaxRight,
     Zero,
+    /** Eyes-open mental effort: high beta/gamma, low alpha. */
+    Thinking,
+    /** Eyes-closed rest: high alpha, low beta/gamma. */
+    Relaxing,
     Winner,
     Loser
 }
