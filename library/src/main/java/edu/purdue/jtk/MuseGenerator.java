@@ -74,6 +74,37 @@ public class MuseGenerator extends MuseSource implements Runnable {
                 grid[wave.value][sensor.value] = (float) limit(0.1 + 0.02 * random.nextGaussian());
     }
 
+    /**
+     * Eyes-open mental effort: elevated beta/gamma, suppressed alpha.
+     */
+    private void setThinkingDestinations() {
+        setBandSignature(0.08, 0.10, 0.10, 0.45, 0.27, 0.02);
+    }
+
+    /**
+     * Eyes-closed rest: elevated posterior alpha, lower beta/gamma.
+     */
+    private void setRelaxingDestinations() {
+        setBandSignature(0.10, 0.15, 0.55, 0.12, 0.08, 0.02);
+    }
+
+    private void setBandSignature(double delta, double theta, double alpha, double beta, double gamma, double variance) {
+        double[] bands = { delta, theta, alpha, beta, gamma };
+        for (Sensor sensor : Sensor.values()) {
+            for (Wave wave : Wave.values()) {
+                double value = bands[wave.value];
+                // Alpha is stronger at the ears during rest; keep thinking more frontal.
+                if (wave == Wave.ALPHA && (sensor == Sensor.LEFT_EAR || sensor == Sensor.RIGHT_EAR)) {
+                    value += 0.08;
+                }
+                if (wave == Wave.BETA && (sensor == Sensor.LEFT_FH || sensor == Sensor.RIGHT_FH)) {
+                    value += 0.05;
+                }
+                grid[wave.value][sensor.value] = (float) limit(value + variance * random.nextGaussian());
+            }
+        }
+    }
+
     private void setHalfDestinations(int q1, int q2) {
         double distance = 0.9;
         double variance = 0.3;
@@ -175,6 +206,8 @@ public class MuseGenerator extends MuseSource implements Runnable {
                     case RightBrain: setRightBrainDestinations(); break;
                     case MaxRight: setMaxRight(); break;
                     case Zero: setZeroDesinations(); break;
+                    case Thinking: setThinkingDestinations(); break;
+                    case Relaxing: setRelaxingDestinations(); break;
                     case Loser: assert false; break;
                     case Winner: assert false; break;
                 }

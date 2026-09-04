@@ -1,0 +1,7 @@
+dependencies {
+    implementation project(":library")
+}
+
+application {
+    mainClass = 'mindstate.MindState'
+}

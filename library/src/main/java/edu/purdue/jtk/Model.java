@@ -19,6 +19,7 @@ class Model {
     private final int SENSOR_LENGTH = Sensor.values().length;
 
     private final float[][] grid = new float[WAVE_LENGTH][SENSOR_LENGTH];
+    private final float[][] unscaledGrid = new float[WAVE_LENGTH][SENSOR_LENGTH];
     private final long[][] time = new long[WAVE_LENGTH][SENSOR_LENGTH];
     private final float[][] gridDrawn = new float[WAVE_LENGTH][SENSOR_LENGTH];
     private final long[][] timeDrawn = new long[WAVE_LENGTH][SENSOR_LENGTH];
@@ -31,6 +32,16 @@ class Model {
     private boolean doSmoothing = true;
     private boolean allowUpscaling = false;
     private boolean useBleAbsolute = false;
+
+    /** Horseshoe 1 = good, 2 = OK; values at or above this are too poor to use. */
+    static final float HORSESHOE_UNUSABLE = 2.5f;
+    static final float RELAXATION_EMA = 0.2f;
+
+    private float smoothedRelaxation = 0.5f;
+    private boolean hasRelaxationSample = false;
+    private boolean relaxationReliable = false;
+    private float relativeAlpha = 0f;
+    private float relativeBeta = 0f;
     /*
      * END MODEL
      */
@@ -54,11 +65,18 @@ class Model {
         for (Wave wave : Wave.values())
             for (Sensor sensor : Sensor.values()) {
                 grid[wave.value][sensor.value] = 0.0f;
+                unscaledGrid[wave.value][sensor.value] = 0.0f;
                 time[wave.value][sensor.value] = currentTime;
                 gridDrawn[wave.value][sensor.value] = 0.0f;
                 timeDrawn[wave.value][sensor.value] = currentTime;
                 wsGrid[wave.value][sensor.value] = new WindowedScaler(600);  // 600 -> one minute scaling window
             }
+
+        smoothedRelaxation = 0.5f;
+        hasRelaxationSample = false;
+        relaxationReliable = false;
+        relativeAlpha = 0f;
+        relativeBeta = 0f;
     }
 
     /*
@@ -66,6 +84,7 @@ class Model {
      */
     //@formatter:off
     void setGrid(int waveIndex, int sensorIndex, float value, long currentTime) {
+        unscaledGrid[waveIndex][sensorIndex] = value;
         grid[waveIndex][sensorIndex] = wsGrid[waveIndex][sensorIndex].scale(value, allowUpscaling);  // last received data value
         time[waveIndex][sensorIndex] = currentTime;
     }
@@ -172,6 +191,138 @@ class Model {
 
     float getDrawn(Wave wave, Sensor sensor) {
         return gridDrawn[wave.value][sensor.value];
+    }
+
+    float getUnscaledGrid(Wave wave, Sensor sensor) {
+        return unscaledGrid[wave.value][sensor.value];
+    }
+
+    /**
+     * Thinking-vs-relaxing index in [0, 1]: 1 is high alpha (relaxing), 0 is high beta/gamma (thinking).
+     * Uses unscaled band powers so independently auto-scaled cells cannot distort the ratio.
+     * When contact is poor, returns the last good smoothed value and {@link #isRelaxationReliable()} is false.
+     */
+    float computeRelaxation(boolean[] showSensor) {
+        boolean[] usable = new boolean[SENSOR_LENGTH];
+        boolean anyGoodEar = false;
+
+        for (Sensor sensor : Sensor.values()) {
+            if (showSensor != null && !showSensor[sensor.value]) {
+                continue;
+            }
+            if (horseshoe[sensor.value] >= HORSESHOE_UNUSABLE) {
+                continue;
+            }
+            usable[sensor.value] = true;
+            if (sensor == Sensor.LEFT_EAR || sensor == Sensor.RIGHT_EAR) {
+                anyGoodEar = true;
+            }
+        }
+
+        if (anyGoodEar) {
+            for (Sensor sensor : Sensor.values()) {
+                if (sensor != Sensor.LEFT_EAR && sensor != Sensor.RIGHT_EAR) {
+                    usable[sensor.value] = false;
+                }
+            }
+        }
+
+        int count = 0;
+        double sumIndex = 0;
+        double sumAlpha = 0;
+        double sumBeta = 0;
+
+        for (Sensor sensor : Sensor.values()) {
+            if (!usable[sensor.value]) {
+                continue;
+            }
+            double[] relative = relativePowers(sensor);
+            if (relative == null) {
+                continue;
+            }
+            double alpha = relative[Wave.ALPHA.value];
+            double beta = relative[Wave.BETA.value];
+            double gamma = relative[Wave.GAMMA.value];
+            double denom = alpha + beta + gamma;
+            if (denom <= 1e-12) {
+                continue;
+            }
+            sumIndex += alpha / denom;
+            sumAlpha += alpha;
+            sumBeta += beta;
+            count++;
+        }
+
+        boolean reliable = touchingForehead && count > 0;
+        relaxationReliable = reliable;
+
+        if (!reliable) {
+            return hasRelaxationSample ? smoothedRelaxation : 0.5f;
+        }
+
+        float instant = (float) (sumIndex / count);
+        relativeAlpha = (float) (sumAlpha / count);
+        relativeBeta = (float) (sumBeta / count);
+
+        if (doSmoothing && hasRelaxationSample) {
+            smoothedRelaxation += RELAXATION_EMA * (instant - smoothedRelaxation);
+        } else {
+            smoothedRelaxation = instant;
+        }
+        hasRelaxationSample = true;
+        return smoothedRelaxation;
+    }
+
+    boolean isRelaxationReliable() {
+        return relaxationReliable;
+    }
+
+    float getRelativeAlpha() {
+        return relativeAlpha;
+    }
+
+    float getRelativeBeta() {
+        return relativeBeta;
+    }
+
+    /**
+     * Converts the five unscaled bands at a sensor into relative powers that sum to 1.
+     * Linear [0, 1] values (BLE relative, generator) are normalized across bands.
+     * Log-scale absolute powers (OSC / BLE absolute, often negative) are converted with 10^v first.
+     */
+    private double[] relativePowers(Sensor sensor) {
+        float[] raw = new float[WAVE_LENGTH];
+        boolean any = false;
+        boolean logScale = useBleAbsolute;
+
+        for (Wave wave : Wave.values()) {
+            raw[wave.value] = unscaledGrid[wave.value][sensor.value];
+            if (raw[wave.value] != 0f) {
+                any = true;
+            }
+            if (raw[wave.value] < 0f) {
+                logScale = true;
+            }
+        }
+        if (!any) {
+            return null;
+        }
+
+        double[] power = new double[WAVE_LENGTH];
+        double sum = 0;
+        for (int i = 0; i < WAVE_LENGTH; i++) {
+            double p = logScale ? Math.pow(10.0, raw[i]) : Math.max(raw[i], 0.0);
+            power[i] = p;
+            sum += p;
+        }
+        if (sum <= 0) {
+            return null;
+        }
+        double inv = 1.0 / sum;
+        for (int i = 0; i < WAVE_LENGTH; i++) {
+            power[i] *= inv;
+        }
+        return power;
     }
 
 
